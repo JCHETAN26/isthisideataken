@@ -78,8 +78,11 @@ export interface AIAnalysis {
   overallScore: number; // 0-100
   verdict: Verdict;
   topCompetitors: Competitor[];
-  keyRisks: string[];
+  keyRisks?: string[];
   recommendation: string;
+  nicheOpportunities?: string[];
+  uniqueAngles?: string[];
+  marketGaps?: string;
 }
 
 export interface IdeaCheckResult {
