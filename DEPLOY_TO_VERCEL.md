@@ -8,7 +8,7 @@ Since this is a monorepo with separate `frontend` and `backend` folders, you wil
 
 1.  **Go to Vercel Dashboard** > **"Add New..."** > **"Project"**
 2.  Import your GitHub repository: `isthisideataken`
-3.  **Project Name:** `ideataken-backend` (or similar)
+3.  **Project Name:** `isthisideataken-backend` (or similar)
 4.  **Framework Preset:** Next.js (should be auto-detected)
 5.  **Root Directory:**
     *   Click **Edit** next to Root Directory

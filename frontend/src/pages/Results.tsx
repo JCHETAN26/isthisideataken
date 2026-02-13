@@ -25,7 +25,7 @@ const Results = () => {
 
   const handleShare = () => {
     navigator.clipboard.writeText(
-      `My startup idea "${query}" scored ${result.analysis.overallScore}/100 on IdeaTaken — Verdict: ${result.analysis.verdict}. Check yours at ideataken.com`
+      `My startup idea "${query}" scored ${result.analysis.overallScore}/100 on IsThisIdeaTaken — Verdict: ${result.analysis.verdict}. Check yours at isthisideataken.com`
     );
     toast.success("Copied to clipboard!");
   };

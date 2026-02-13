@@ -27,7 +27,7 @@ is-my-idea-taken/
 │   └── README.md
 │
 ├── frontend/             # Frontend (Add your Lovable UI here)
-│   └── (to be added)
+├── frontend/             # Frontend UI (Vite + React)
 │
 ├── API_INTEGRATION.md    # Guide for integrating real APIs
 ├── PROJECT_SUMMARY.md    # Project overview

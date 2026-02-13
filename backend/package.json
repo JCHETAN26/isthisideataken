@@ -1,7 +1,7 @@
 {
   "name": "ideataken-backend",
   "version": "1.0.0",
-  "description": "Backend API for IdeaTaken startup validation platform",
+  "description": "Backend API for IsThisIdeaTaken startup validation platform",
   "private": true,
   "scripts": {
     "dev": "next dev -p 3001",

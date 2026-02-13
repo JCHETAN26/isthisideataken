@@ -8,13 +8,13 @@ const Footer = () => (
           <div className="h-6 w-6 rounded-md bg-primary flex items-center justify-center text-primary-foreground text-[10px] font-black">
             IT
           </div>
-          <span className="text-sm font-semibold text-foreground">IdeaTaken</span>
+          <span className="text-sm font-semibold text-foreground">IsThisIdeaTaken</span>
           <span className="text-xs text-muted-foreground ml-2">Know before you build.</span>
         </div>
         <div className="flex items-center gap-6 text-xs text-muted-foreground">
           <Link to="/pricing" className="hover:text-foreground transition-colors">Pricing</Link>
           <Link to="/dashboard" className="hover:text-foreground transition-colors">Dashboard</Link>
-          <span>© 2026 IdeaTaken</span>
+          <span>© 2026 IsThisIdeaTaken</span>
         </div>
       </div>
     </div>

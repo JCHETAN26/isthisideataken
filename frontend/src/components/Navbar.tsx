@@ -12,7 +12,7 @@ const Navbar = () => {
           <div className="h-7 w-7 rounded-lg bg-primary flex items-center justify-center text-primary-foreground text-xs font-black">
             IT
           </div>
-          <span className="text-foreground">IdeaTaken</span>
+          <span className="text-foreground">IsThisIdeaTaken</span>
         </Link>
 
         <div className="flex items-center gap-6">
