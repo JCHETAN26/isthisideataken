@@ -13,9 +13,13 @@ Since this is a monorepo with separate `frontend` and `backend` folders, you wil
 5.  **Root Directory:**
     *   Click **Edit** next to Root Directory
     *   Select `backend` folder
-6.  **Environment Variables:**
+7.  **Environment Variables:**
     *   Copy the contents of `backend/.env.local`
-    *   Add each variable (e.g., `ANTHROPIC_API_KEY`, `GITHUB_TOKEN`, etc.)
+    *   Add each variable:
+        *   `ANTHROPIC_API_KEY`
+        *   `RESEND_API_KEY` (Get this from Resend.com)
+        *   `NEXT_PUBLIC_SUPABASE_URL`
+        *   `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 7.  **Click Deploy**
 
 **Once deployed:**
