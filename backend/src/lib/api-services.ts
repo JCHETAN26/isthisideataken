@@ -34,7 +34,7 @@ Coinpath`;
 
         console.log('🤖 Calling Claude API...');
         const message = await anthropic.messages.create({
-            model: 'claude-3-sonnet-20240229',
+            model: 'claude-3-haiku-20240307',
             max_tokens: 512,
             messages: [{ role: 'user', content: prompt }],
         });
@@ -85,51 +85,49 @@ function generateFallbackNames(idea: string): string[] {
 export async function checkDomainAvailability(idea: string) {
     // Step 1: Generate creative domain name suggestions using AI
     const creativeNames = await generateCreativeDomainNames(idea);
+    const dns = await import('node:dns/promises');
 
     const extensions = ['.com', '.io', '.ai', '.co'];
     const results = [];
 
-    // Step 2: Check availability for each creative name
+    // Step 2: Check availability for each creative name using DNS lookup
     for (const creativeName of creativeNames) {
         for (const ext of extensions) {
             const fullDomain = `${creativeName}${ext}`;
 
             try {
-                // Using RapidAPI Domain Availability Checker
-                const response = await axios.get(
-                    `https://domain-availability.whoisxmlapi.com/api/v1`,
-                    {
-                        params: {
-                            domainName: fullDomain,
-                        },
-                        headers: {
-                            'x-rapidapi-key': process.env.RAPID_API_KEY,
-                            'x-rapidapi-host': 'domain-availability.whoisxmlapi.com'
-                        }
-                    }
-                );
+                // If DNS resolves, the domain is likely TAKEN (has records)
+                // If DNS fails with ENOTFOUND, the domain is likely AVAILABLE
+                await dns.resolve(fullDomain);
 
-                const isAvailable = response.data.DomainInfo?.domainAvailability === 'AVAILABLE';
-
+                // If no error thrown, domain exists -> Taken
                 results.push({
                     domain: fullDomain,
-                    available: isAvailable,
+                    available: false,
                     extension: ext,
                 });
-
-                console.log(`✅ Checked ${fullDomain}: ${isAvailable ? 'Available' : 'Taken'}`);
-            } catch (error) {
-                console.error(`Error checking domain ${fullDomain}:`, error);
-                // Fallback to mock data on error
-                results.push({
-                    domain: fullDomain,
-                    available: Math.random() > 0.5,
-                    extension: ext,
-                });
+                console.log(`✅ Checked ${fullDomain}: Taken`);
+            } catch (error: any) {
+                if (error.code === 'ENOTFOUND') {
+                    // Domain not found in DNS -> likely Available
+                    results.push({
+                        domain: fullDomain,
+                        available: true,
+                        extension: ext,
+                    });
+                    console.log(`✅ Checked ${fullDomain}: Available`);
+                } else {
+                    console.error(`Error checking domain ${fullDomain}:`, error);
+                    // On other errors, assume unavailable to be safe
+                    results.push({
+                        domain: fullDomain,
+                        available: false,
+                        extension: ext,
+                    });
+                }
             }
 
-            // Only check first extension for each name to save API calls
-            // (User can see if .com is available and decide to check others)
+            // Only check first extension for each name to match original behavior
             break;
         }
     }
@@ -364,7 +362,6 @@ export async function analyzeWithAI(idea: string, sources: any) {
         const prompt = `You are a startup advisor helping an entrepreneur validate: "${idea}"
 
 Market research:
-- Domains: ${JSON.stringify(sources.domains)}
 - App Store: ${sources.appStore.length} similar apps
 - Product Hunt: ${sources.productHunt.length} launches
 - Reddit: ${sources.reddit.length} discussions
@@ -386,7 +383,7 @@ Return JSON:
 }`;
 
         const message = await anthropic.messages.create({
-            model: 'claude-3-sonnet-20240229',
+            model: 'claude-3-haiku-20240307',
             max_tokens: 2000,
             messages: [{ role: 'user', content: prompt }],
         });

@@ -1,0 +1,1274 @@
+⚠ Warning: Next.js inferred your workspace root, but it may not be correct.
+ We detected multiple lockfiles and selected the directory of /Users/chetan/package-lock.json as the root directory.
+ To silence this warning, set `turbopack.root` in your Next.js config, or consider removing one of the lockfiles if it's not needed.
+   See https://nextjs.org/docs/app/api-reference/config/next-config-js/turbopack#root-directory for more information.
+ Detected additional lockfiles: 
+   * /Users/chetan/is-my-idea-taken/backend/package-lock.json
+
+▲ Next.js 16.1.6 (Turbopack)
+- Local:         http://localhost:3001
+- Network:       http://10.155.231.189:3001
+- Environments: .env.local
+
+✓ Starting...
+✓ Ready in 765ms
+ OPTIONS /api/check-idea 200 in 619ms (compile: 596ms, render: 23ms)
+Checking idea: "budgetting app for personal use" (User: anonymous)
+No cached result found
+Cache miss - fetching fresh data for: "budgetting app for personal use"
+🎨 Generating creative domain names for: budgetting app for personal use
+🤖 Calling Claude API...
+The model 'claude-3-sonnet-20240229' is deprecated and will reach end-of-life on July 21st, 2025
+Please migrate to a newer model. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+Error searching Product Hunt: Error [AxiosError]: Request failed with status code 401
+    at async searchProductHunt (src/lib/api-services.ts:175:26)
+    at async POST (src/app/api/check-idea/route.ts:157:13)
+  173 |     try {
+  174 |         // Product Hunt API requires OAuth token
+> 175 |         const response = await axios.post(
+      |                          ^
+  176 |             'https://api.producthunt.com/v2/api/graphql',
+  177 |             {
+  178 |                 query: ` {
+  isAxiosError: true,
+  code: 'ERR_BAD_REQUEST',
+  config: [Object],
+  request: [ClientRequest],
+  response: [Object],
+  status: 401
+}
+❌ Error generating creative domain names: Error: 404 {"type":"error","error":{"type":"not_found_error","message":"model: claude-3-sonnet-20240229"},"request_id":"req_011CY5dvi2qFAu2MwgTQEJHX"}
+    at async generateCreativeDomainNames (src/lib/api-services.ts:36:25)
+    at async checkDomainAvailability (src/lib/api-services.ts:87:27)
+    at async POST (src/app/api/check-idea/route.ts:157:13)
+  34 |
+  35 |         console.log('🤖 Calling Claude API...');
+> 36 |         const message = await anthropic.messages.create({
+     |                         ^
+  37 |             model: 'claude-3-sonnet-20240229',
+  38 |             max_tokens: 512,
+  39 |             messages: [{ role: 'user', content: prompt }], {
+  status: 404,
+  headers: Headers {
+    date: 'Fri, 13 Feb 2026 07:00:48 GMT',
+    'content-type': 'application/json',
+    'transfer-encoding': 'chunked',
+    connection: 'keep-alive',
+    'x-should-retry': 'false',
+    'request-id': 'req_011CY5dvi2qFAu2MwgTQEJHX',
+    'strict-transport-security': 'max-age=31536000; includeSubDomains; preload',
+    'anthropic-organization-id': 'b3b6af82-efdc-4cfe-a360-430f05627f92',
+    server: 'cloudflare',
+    'x-envoy-upstream-service-time': '52',
+    'cf-cache-status': 'DYNAMIC',
+    'x-robots-tag': 'none',
+    'content-security-policy': "default-src 'none'; frame-ancestors 'none'",
+    'content-encoding': 'gzip',
+    'cf-ray': '9cd2736bf8781b4b-PHX'
+  },
+  requestID: 'req_011CY5dvi2qFAu2MwgTQEJHX',
+  error: [Object]
+}
+⚠️ Using fallback names
+Error checking domain budgetting.com: Error [AxiosError]: Request failed with status code 403
+    at async checkDomainAvailability (src/lib/api-services.ts:99:34)
+    at async POST (src/app/api/check-idea/route.ts:157:13)
+   97 |             try {
+   98 |                 // Using RapidAPI Domain Availability Checker
+>  99 |                 const response = await axios.get(
+      |                                  ^
+  100 |                     `https://domain-availability.whoisxmlapi.com/api/v1`,
+  101 |                     {
+  102 |                         params: { {
+  isAxiosError: true,
+  code: 'ERR_BAD_REQUEST',
+  config: [Object],
+  request: [ClientRequest],
+  response: [Object],
+  status: 403
+}
+Error searching trademarks: Error [AxiosError]: Request failed with status code 403
+    at async searchTrademarks (src/lib/api-services.ts:324:26)
+    at async POST (src/app/api/check-idea/route.ts:157:13)
+  322 |         const keywords = idea.split(' ').slice(0, 3).join(' ');
+  323 |
+> 324 |         const response = await axios.get(
+      |                          ^
+  325 |             `https://uspto-trademark.p.rapidapi.com/v1/trademarkSearch/${encodeURIComponent(keywords)}`,
+  326 |             {
+  327 |                 headers: { {
+  isAxiosError: true,
+  code: 'ERR_BAD_REQUEST',
+  config: [Object],
+  request: [ClientRequest],
+  response: [Object],
+  status: 403
+}
+Error checking domain budgettingapp.com: Error [AxiosError]: Request failed with status code 403
+    at async checkDomainAvailability (src/lib/api-services.ts:99:34)
+    at async POST (src/app/api/check-idea/route.ts:157:13)
+   97 |             try {
+   98 |                 // Using RapidAPI Domain Availability Checker
+>  99 |                 const response = await axios.get(
+      |                                  ^
+  100 |                     `https://domain-availability.whoisxmlapi.com/api/v1`,
+  101 |                     {
+  102 |                         params: { {
+  isAxiosError: true,
+  code: 'ERR_BAD_REQUEST',
+  config: [Object],
+  request: [ClientRequest],
+  response: [Object],
+  status: 403
+}
+Error checking domain budgettinghq.com: Error [AxiosError]: Request failed with status code 403
+    at async checkDomainAvailability (src/lib/api-services.ts:99:34)
+    at async POST (src/app/api/check-idea/route.ts:157:13)
+   97 |             try {
+   98 |                 // Using RapidAPI Domain Availability Checker
+>  99 |                 const response = await axios.get(
+      |                                  ^
+  100 |                     `https://domain-availability.whoisxmlapi.com/api/v1`,
+  101 |                     {
+  102 |                         params: { {
+  isAxiosError: true,
+  code: 'ERR_BAD_REQUEST',
+  config: [Object],
+  request: [ClientRequest],
+  response: [Object],
+  status: 403
+}
+Error checking domain getbudgetting.com: Error [AxiosError]: Request failed with status code 403
+    at async checkDomainAvailability (src/lib/api-services.ts:99:34)
+    at async POST (src/app/api/check-idea/route.ts:157:13)
+   97 |             try {
+   98 |                 // Using RapidAPI Domain Availability Checker
+>  99 |                 const response = await axios.get(
+      |                                  ^
+  100 |                     `https://domain-availability.whoisxmlapi.com/api/v1`,
+  101 |                     {
+  102 |                         params: { {
+  isAxiosError: true,
+  code: 'ERR_BAD_REQUEST',
+  config: [Object],
+  request: [ClientRequest],
+  response: [Object],
+  status: 403
+}
+Error checking domain budgettingio.com: Error [AxiosError]: Request failed with status code 403
+    at async checkDomainAvailability (src/lib/api-services.ts:99:34)
+    at async POST (src/app/api/check-idea/route.ts:157:13)
+   97 |             try {
+   98 |                 // Using RapidAPI Domain Availability Checker
+>  99 |                 const response = await axios.get(
+      |                                  ^
+  100 |                     `https://domain-availability.whoisxmlapi.com/api/v1`,
+  101 |                     {
+  102 |                         params: { {
+  isAxiosError: true,
+  code: 'ERR_BAD_REQUEST',
+  config: [Object],
+  request: [ClientRequest],
+  response: [Object],
+  status: 403
+}
+Error checking domain budgettingpersonal.com: Error [AxiosError]: Request failed with status code 403
+    at async checkDomainAvailability (src/lib/api-services.ts:99:34)
+    at async POST (src/app/api/check-idea/route.ts:157:13)
+   97 |             try {
+   98 |                 // Using RapidAPI Domain Availability Checker
+>  99 |                 const response = await axios.get(
+      |                                  ^
+  100 |                     `https://domain-availability.whoisxmlapi.com/api/v1`,
+  101 |                     {
+  102 |                         params: { {
+  isAxiosError: true,
+  code: 'ERR_BAD_REQUEST',
+  config: [Object],
+  request: [ClientRequest],
+  response: [Object],
+  status: 403
+}
+The model 'claude-3-sonnet-20240229' is deprecated and will reach end-of-life on July 21st, 2025
+Please migrate to a newer model. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+Error with AI analysis: Error: 404 {"type":"error","error":{"type":"not_found_error","message":"model: claude-3-sonnet-20240229"},"request_id":"req_011CY5dvuj3A5qaBh786qGS9"}
+    at async analyzeWithAI (src/lib/api-services.ts:388:25)
+    at async POST (src/app/api/check-idea/route.ts:202:26)
+  386 | }`;
+  387 |
+> 388 |         const message = await anthropic.messages.create({
+      |                         ^
+  389 |             model: 'claude-3-sonnet-20240229',
+  390 |             max_tokens: 2000,
+  391 |             messages: [{ role: 'user', content: prompt }], {
+  status: 404,
+  headers: Headers {
+    date: 'Fri, 13 Feb 2026 07:00:51 GMT',
+    'content-type': 'application/json',
+    'transfer-encoding': 'chunked',
+    connection: 'keep-alive',
+    'x-should-retry': 'false',
+    'request-id': 'req_011CY5dvuj3A5qaBh786qGS9',
+    'strict-transport-security': 'max-age=31536000; includeSubDomains; preload',
+    'anthropic-organization-id': 'b3b6af82-efdc-4cfe-a360-430f05627f92',
+    server: 'cloudflare',
+    'x-envoy-upstream-service-time': '54',
+    'cf-cache-status': 'DYNAMIC',
+    'x-robots-tag': 'none',
+    'content-security-policy': "default-src 'none'; frame-ancestors 'none'",
+    'content-encoding': 'gzip',
+    'cf-ray': '9cd2737d1d381b4b-PHX'
+  },
+  requestID: 'req_011CY5dvuj3A5qaBh786qGS9',
+  error: [Object]
+}
+Analysis complete for: "budgetting app for personal use" - Score: 0 (5041ms)
+ POST /api/check-idea 200 in 5.1s (compile: 1482µs, render: 5.1s)
+Checking idea: "Uber for dog walking" (User: anonymous)
+No cached result found
+Cache miss - fetching fresh data for: "Uber for dog walking"
+🎨 Generating creative domain names for: Uber for dog walking
+🤖 Calling Claude API...
+The model 'claude-3-sonnet-20240229' is deprecated and will reach end-of-life on July 21st, 2025
+Please migrate to a newer model. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+❌ Error generating creative domain names: Error: 404 {"type":"error","error":{"type":"not_found_error","message":"model: claude-3-sonnet-20240229"},"request_id":"req_011CY6Un4NQPL6seAHAKcTaa"}
+    at async generateCreativeDomainNames (src/lib/api-services.ts:36:25)
+    at async checkDomainAvailability (src/lib/api-services.ts:87:27)
+    at async POST (src/app/api/check-idea/route.ts:157:13)
+  34 |
+  35 |         console.log('🤖 Calling Claude API...');
+> 36 |         const message = await anthropic.messages.create({
+     |                         ^
+  37 |             model: 'claude-3-sonnet-20240229',
+  38 |             max_tokens: 512,
+  39 |             messages: [{ role: 'user', content: prompt }], {
+  status: 404,
+  headers: Headers {
+    date: 'Fri, 13 Feb 2026 17:41:25 GMT',
+    'content-type': 'application/json',
+    'transfer-encoding': 'chunked',
+    connection: 'keep-alive',
+    'x-should-retry': 'false',
+    'request-id': 'req_011CY6Un4NQPL6seAHAKcTaa',
+    'strict-transport-security': 'max-age=31536000; includeSubDomains; preload',
+    'anthropic-organization-id': 'b3b6af82-efdc-4cfe-a360-430f05627f92',
+    server: 'cloudflare',
+    'x-envoy-upstream-service-time': '75',
+    'cf-cache-status': 'DYNAMIC',
+    'x-robots-tag': 'none',
+    'content-security-policy': "default-src 'none'; frame-ancestors 'none'",
+    'content-encoding': 'gzip',
+    'cf-ray': '9cd61dd2bb1a79cf-LAX'
+  },
+  requestID: 'req_011CY6Un4NQPL6seAHAKcTaa',
+  error: [Object]
+}
+⚠️ Using fallback names
+Error searching Product Hunt: Error [AxiosError]: Request failed with status code 401
+    at async searchProductHunt (src/lib/api-services.ts:175:26)
+    at async POST (src/app/api/check-idea/route.ts:157:13)
+  173 |     try {
+  174 |         // Product Hunt API requires OAuth token
+> 175 |         const response = await axios.post(
+      |                          ^
+  176 |             'https://api.producthunt.com/v2/api/graphql',
+  177 |             {
+  178 |                 query: ` {
+  isAxiosError: true,
+  code: 'ERR_BAD_REQUEST',
+  config: [Object],
+  request: [ClientRequest],
+  response: [Object],
+  status: 401
+}
+Error searching trademarks: Error [AxiosError]: Request failed with status code 403
+    at async searchTrademarks (src/lib/api-services.ts:324:26)
+    at async POST (src/app/api/check-idea/route.ts:157:13)
+  322 |         const keywords = idea.split(' ').slice(0, 3).join(' ');
+  323 |
+> 324 |         const response = await axios.get(
+      |                          ^
+  325 |             `https://uspto-trademark.p.rapidapi.com/v1/trademarkSearch/${encodeURIComponent(keywords)}`,
+  326 |             {
+  327 |                 headers: { {
+  isAxiosError: true,
+  code: 'ERR_BAD_REQUEST',
+  config: [Object],
+  request: [ClientRequest],
+  response: [Object],
+  status: 403
+}
+Error checking domain uber.com: Error [AxiosError]: Request failed with status code 403
+    at async checkDomainAvailability (src/lib/api-services.ts:99:34)
+    at async POST (src/app/api/check-idea/route.ts:157:13)
+   97 |             try {
+   98 |                 // Using RapidAPI Domain Availability Checker
+>  99 |                 const response = await axios.get(
+      |                                  ^
+  100 |                     `https://domain-availability.whoisxmlapi.com/api/v1`,
+  101 |                     {
+  102 |                         params: { {
+  isAxiosError: true,
+  code: 'ERR_BAD_REQUEST',
+  config: [Object],
+  request: [ClientRequest],
+  response: [Object],
+  status: 403
+}
+Error checking domain uberapp.com: Error [AxiosError]: Request failed with status code 403
+    at async checkDomainAvailability (src/lib/api-services.ts:99:34)
+    at async POST (src/app/api/check-idea/route.ts:157:13)
+   97 |             try {
+   98 |                 // Using RapidAPI Domain Availability Checker
+>  99 |                 const response = await axios.get(
+      |                                  ^
+  100 |                     `https://domain-availability.whoisxmlapi.com/api/v1`,
+  101 |                     {
+  102 |                         params: { {
+  isAxiosError: true,
+  code: 'ERR_BAD_REQUEST',
+  config: [Object],
+  request: [ClientRequest],
+  response: [Object],
+  status: 403
+}
+Error checking domain uberhq.com: Error [AxiosError]: Request failed with status code 403
+    at async checkDomainAvailability (src/lib/api-services.ts:99:34)
+    at async POST (src/app/api/check-idea/route.ts:157:13)
+   97 |             try {
+   98 |                 // Using RapidAPI Domain Availability Checker
+>  99 |                 const response = await axios.get(
+      |                                  ^
+  100 |                     `https://domain-availability.whoisxmlapi.com/api/v1`,
+  101 |                     {
+  102 |                         params: { {
+  isAxiosError: true,
+  code: 'ERR_BAD_REQUEST',
+  config: [Object],
+  request: [ClientRequest],
+  response: [Object],
+  status: 403
+}
+Error checking domain getuber.com: Error [AxiosError]: Request failed with status code 403
+    at async checkDomainAvailability (src/lib/api-services.ts:99:34)
+    at async POST (src/app/api/check-idea/route.ts:157:13)
+   97 |             try {
+   98 |                 // Using RapidAPI Domain Availability Checker
+>  99 |                 const response = await axios.get(
+      |                                  ^
+  100 |                     `https://domain-availability.whoisxmlapi.com/api/v1`,
+  101 |                     {
+  102 |                         params: { {
+  isAxiosError: true,
+  code: 'ERR_BAD_REQUEST',
+  config: [Object],
+  request: [ClientRequest],
+  response: [Object],
+  status: 403
+}
+Error checking domain uberio.com: Error [AxiosError]: Request failed with status code 403
+    at async checkDomainAvailability (src/lib/api-services.ts:99:34)
+    at async POST (src/app/api/check-idea/route.ts:157:13)
+   97 |             try {
+   98 |                 // Using RapidAPI Domain Availability Checker
+>  99 |                 const response = await axios.get(
+      |                                  ^
+  100 |                     `https://domain-availability.whoisxmlapi.com/api/v1`,
+  101 |                     {
+  102 |                         params: { {
+  isAxiosError: true,
+  code: 'ERR_BAD_REQUEST',
+  config: [Object],
+  request: [ClientRequest],
+  response: [Object],
+  status: 403
+}
+Error checking domain uberwalking.com: Error [AxiosError]: Request failed with status code 403
+    at async checkDomainAvailability (src/lib/api-services.ts:99:34)
+    at async POST (src/app/api/check-idea/route.ts:157:13)
+   97 |             try {
+   98 |                 // Using RapidAPI Domain Availability Checker
+>  99 |                 const response = await axios.get(
+      |                                  ^
+  100 |                     `https://domain-availability.whoisxmlapi.com/api/v1`,
+  101 |                     {
+  102 |                         params: { {
+  isAxiosError: true,
+  code: 'ERR_BAD_REQUEST',
+  config: [Object],
+  request: [ClientRequest],
+  response: [Object],
+  status: 403
+}
+The model 'claude-3-sonnet-20240229' is deprecated and will reach end-of-life on July 21st, 2025
+Please migrate to a newer model. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+Error with AI analysis: Error: 404 {"type":"error","error":{"type":"not_found_error","message":"model: claude-3-sonnet-20240229"},"request_id":"req_011CY6UnEpT7mkVPiPNzQJaZ"}
+    at async analyzeWithAI (src/lib/api-services.ts:388:25)
+    at async POST (src/app/api/check-idea/route.ts:202:26)
+  386 | }`;
+  387 |
+> 388 |         const message = await anthropic.messages.create({
+      |                         ^
+  389 |             model: 'claude-3-sonnet-20240229',
+  390 |             max_tokens: 2000,
+  391 |             messages: [{ role: 'user', content: prompt }], {
+  status: 404,
+  headers: Headers {
+    date: 'Fri, 13 Feb 2026 17:41:28 GMT',
+    'content-type': 'application/json',
+    'transfer-encoding': 'chunked',
+    connection: 'keep-alive',
+    'x-should-retry': 'false',
+    'request-id': 'req_011CY6UnEpT7mkVPiPNzQJaZ',
+    'strict-transport-security': 'max-age=31536000; includeSubDomains; preload',
+    'anthropic-organization-id': 'b3b6af82-efdc-4cfe-a360-430f05627f92',
+    server: 'cloudflare',
+    'x-envoy-upstream-service-time': '58',
+    'cf-cache-status': 'DYNAMIC',
+    'x-robots-tag': 'none',
+    'content-security-policy': "default-src 'none'; frame-ancestors 'none'",
+    'content-encoding': 'gzip',
+    'cf-ray': '9cd61de1fb6b79cf-LAX'
+  },
+  requestID: 'req_011CY6UnEpT7mkVPiPNzQJaZ',
+  error: [Object]
+}
+Analysis complete for: "Uber for dog walking" - Score: 0 (5235ms)
+ POST /api/check-idea 200 in 5.4s (compile: 149ms, render: 5.3s)
+Checking idea: "Uber for dog walking" (User: anonymous)
+Cache hit for: "Uber for dog walking"
+Returned cached result in 889ms
+ POST /api/check-idea 200 in 1049ms (compile: 134ms, render: 915ms)
+Checking idea: "Time machine for cats" (User: anonymous)
+No cached result found
+Cache miss - fetching fresh data for: "Time machine for cats"
+🎨 Generating creative domain names for: Time machine for cats
+🤖 Calling Claude API...
+❌ Error generating creative domain names: Error: 404 {"type":"error","error":{"type":"not_found_error","message":"model: claude-3-5-sonnet-20241022"},"request_id":"req_011CY6UrNXQrEFuQPi36nrev"}
+    at async generateCreativeDomainNames (src/lib/api-services.ts:36:25)
+    at async checkDomainAvailability (src/lib/api-services.ts:87:27)
+    at async POST (src/app/api/check-idea/route.ts:157:13)
+  34 |
+  35 |         console.log('🤖 Calling Claude API...');
+> 36 |         const message = await anthropic.messages.create({
+     |                         ^
+  37 |             model: 'claude-3-5-sonnet-20241022',
+  38 |             max_tokens: 512,
+  39 |             messages: [{ role: 'user', content: prompt }], {
+  status: 404,
+  headers: Headers {
+    date: 'Fri, 13 Feb 2026 17:42:24 GMT',
+    'content-type': 'application/json',
+    'transfer-encoding': 'chunked',
+    connection: 'keep-alive',
+    'x-should-retry': 'false',
+    'x-robots-tag': 'none',
+    'request-id': 'req_011CY6UrNXQrEFuQPi36nrev',
+    'strict-transport-security': 'max-age=31536000; includeSubDomains; preload',
+    'anthropic-organization-id': 'b3b6af82-efdc-4cfe-a360-430f05627f92',
+    server: 'cloudflare',
+    'x-envoy-upstream-service-time': '96',
+    'content-security-policy': "default-src 'none'; frame-ancestors 'none'",
+    'cf-cache-status': 'DYNAMIC',
+    'content-encoding': 'gzip',
+    'cf-ray': '9cd61f404b9d2ab4-LAX'
+  },
+  requestID: 'req_011CY6UrNXQrEFuQPi36nrev',
+  error: [Object]
+}
+⚠️ Using fallback names
+Error searching Product Hunt: Error [AxiosError]: Request failed with status code 401
+    at async searchProductHunt (src/lib/api-services.ts:175:26)
+    at async POST (src/app/api/check-idea/route.ts:157:13)
+  173 |     try {
+  174 |         // Product Hunt API requires OAuth token
+> 175 |         const response = await axios.post(
+      |                          ^
+  176 |             'https://api.producthunt.com/v2/api/graphql',
+  177 |             {
+  178 |                 query: ` {
+  isAxiosError: true,
+  code: 'ERR_BAD_REQUEST',
+  config: [Object],
+  request: [ClientRequest],
+  response: [Object],
+  status: 401
+}
+Error searching trademarks: Error [AxiosError]: Request failed with status code 403
+    at async searchTrademarks (src/lib/api-services.ts:324:26)
+    at async POST (src/app/api/check-idea/route.ts:157:13)
+  322 |         const keywords = idea.split(' ').slice(0, 3).join(' ');
+  323 |
+> 324 |         const response = await axios.get(
+      |                          ^
+  325 |             `https://uspto-trademark.p.rapidapi.com/v1/trademarkSearch/${encodeURIComponent(keywords)}`,
+  326 |             {
+  327 |                 headers: { {
+  isAxiosError: true,
+  code: 'ERR_BAD_REQUEST',
+  config: [Object],
+  request: [ClientRequest],
+  response: [Object],
+  status: 403
+}
+Error checking domain time.com: Error [AxiosError]: Request failed with status code 403
+    at async checkDomainAvailability (src/lib/api-services.ts:99:34)
+    at async POST (src/app/api/check-idea/route.ts:157:13)
+   97 |             try {
+   98 |                 // Using RapidAPI Domain Availability Checker
+>  99 |                 const response = await axios.get(
+      |                                  ^
+  100 |                     `https://domain-availability.whoisxmlapi.com/api/v1`,
+  101 |                     {
+  102 |                         params: { {
+  isAxiosError: true,
+  code: 'ERR_BAD_REQUEST',
+  config: [Object],
+  request: [ClientRequest],
+  response: [Object],
+  status: 403
+}
+Error checking domain timeapp.com: Error [AxiosError]: Request failed with status code 403
+    at async checkDomainAvailability (src/lib/api-services.ts:99:34)
+    at async POST (src/app/api/check-idea/route.ts:157:13)
+   97 |             try {
+   98 |                 // Using RapidAPI Domain Availability Checker
+>  99 |                 const response = await axios.get(
+      |                                  ^
+  100 |                     `https://domain-availability.whoisxmlapi.com/api/v1`,
+  101 |                     {
+  102 |                         params: { {
+  isAxiosError: true,
+  code: 'ERR_BAD_REQUEST',
+  config: [Object],
+  request: [ClientRequest],
+  response: [Object],
+  status: 403
+}
+Error checking domain timehq.com: Error [AxiosError]: Request failed with status code 403
+    at async checkDomainAvailability (src/lib/api-services.ts:99:34)
+    at async POST (src/app/api/check-idea/route.ts:157:13)
+   97 |             try {
+   98 |                 // Using RapidAPI Domain Availability Checker
+>  99 |                 const response = await axios.get(
+      |                                  ^
+  100 |                     `https://domain-availability.whoisxmlapi.com/api/v1`,
+  101 |                     {
+  102 |                         params: { {
+  isAxiosError: true,
+  code: 'ERR_BAD_REQUEST',
+  config: [Object],
+  request: [ClientRequest],
+  response: [Object],
+  status: 403
+}
+Error checking domain gettime.com: Error [AxiosError]: Request failed with status code 403
+    at async checkDomainAvailability (src/lib/api-services.ts:99:34)
+    at async POST (src/app/api/check-idea/route.ts:157:13)
+   97 |             try {
+   98 |                 // Using RapidAPI Domain Availability Checker
+>  99 |                 const response = await axios.get(
+      |                                  ^
+  100 |                     `https://domain-availability.whoisxmlapi.com/api/v1`,
+  101 |                     {
+  102 |                         params: { {
+  isAxiosError: true,
+  code: 'ERR_BAD_REQUEST',
+  config: [Object],
+  request: [ClientRequest],
+  response: [Object],
+  status: 403
+}
+Error checking domain timeio.com: Error [AxiosError]: Request failed with status code 403
+    at async checkDomainAvailability (src/lib/api-services.ts:99:34)
+    at async POST (src/app/api/check-idea/route.ts:157:13)
+   97 |             try {
+   98 |                 // Using RapidAPI Domain Availability Checker
+>  99 |                 const response = await axios.get(
+      |                                  ^
+  100 |                     `https://domain-availability.whoisxmlapi.com/api/v1`,
+  101 |                     {
+  102 |                         params: { {
+  isAxiosError: true,
+  code: 'ERR_BAD_REQUEST',
+  config: [Object],
+  request: [ClientRequest],
+  response: [Object],
+  status: 403
+}
+Error checking domain timemachine.com: Error [AxiosError]: Request failed with status code 403
+    at async checkDomainAvailability (src/lib/api-services.ts:99:34)
+    at async POST (src/app/api/check-idea/route.ts:157:13)
+   97 |             try {
+   98 |                 // Using RapidAPI Domain Availability Checker
+>  99 |                 const response = await axios.get(
+      |                                  ^
+  100 |                     `https://domain-availability.whoisxmlapi.com/api/v1`,
+  101 |                     {
+  102 |                         params: { {
+  isAxiosError: true,
+  code: 'ERR_BAD_REQUEST',
+  config: [Object],
+  request: [ClientRequest],
+  response: [Object],
+  status: 403
+}
+Error with AI analysis: Error: 404 {"type":"error","error":{"type":"not_found_error","message":"model: claude-3-5-sonnet-20241022"},"request_id":"req_011CY6UrZYh9QBAdFgHJk9pk"}
+    at async analyzeWithAI (src/lib/api-services.ts:388:25)
+    at async POST (src/app/api/check-idea/route.ts:202:26)
+  386 | }`;
+  387 |
+> 388 |         const message = await anthropic.messages.create({
+      |                         ^
+  389 |             model: 'claude-3-5-sonnet-20241022',
+  390 |             max_tokens: 2000,
+  391 |             messages: [{ role: 'user', content: prompt }], {
+  status: 404,
+  headers: Headers {
+    date: 'Fri, 13 Feb 2026 17:42:26 GMT',
+    'content-type': 'application/json',
+    'transfer-encoding': 'chunked',
+    connection: 'keep-alive',
+    'x-should-retry': 'false',
+    'x-robots-tag': 'none',
+    'request-id': 'req_011CY6UrZYh9QBAdFgHJk9pk',
+    'strict-transport-security': 'max-age=31536000; includeSubDomains; preload',
+    'anthropic-organization-id': 'b3b6af82-efdc-4cfe-a360-430f05627f92',
+    server: 'cloudflare',
+    'x-envoy-upstream-service-time': '80',
+    'content-security-policy': "default-src 'none'; frame-ancestors 'none'",
+    'cf-cache-status': 'DYNAMIC',
+    'content-encoding': 'gzip',
+    'cf-ray': '9cd61f507b402ab4-LAX'
+  },
+  requestID: 'req_011CY6UrZYh9QBAdFgHJk9pk',
+  error: [Object]
+}
+Error caching result: {
+  message: 'TypeError: fetch failed',
+  details: 'TypeError: fetch failed\n' +
+    '\n' +
+    'Caused by: SocketError: other side closed (UND_ERR_SOCKET)\n' +
+    'SocketError: other side closed\n' +
+    '    at TLSSocket.<anonymous> (node:internal/deps/undici/undici:6408:28)\n' +
+    '    at TLSSocket.emit (node:events:531:35)\n' +
+    '    at endReadableNT (node:internal/streams/readable:1698:12)\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)',
+  hint: '',
+  code: ''
+}
+Analysis complete for: "Time machine for cats" - Score: 0 (3816ms)
+ POST /api/check-idea 200 in 4.2s (compile: 393ms, render: 3.8s)
+Checking idea: "Helicopter rides for dogs" (User: anonymous)
+No cached result found
+Cache miss - fetching fresh data for: "Helicopter rides for dogs"
+🎨 Generating creative domain names for: Helicopter rides for dogs
+🤖 Calling Claude API...
+❌ Error generating creative domain names: Error: 404 {"type":"error","error":{"type":"not_found_error","message":"model: claude-3-5-sonnet-latest"},"request_id":"req_011CY6UuSnUoLrSWmaaZhyUv"}
+    at async generateCreativeDomainNames (src/lib/api-services.ts:36:25)
+    at async checkDomainAvailability (src/lib/api-services.ts:87:27)
+    at async POST (src/app/api/check-idea/route.ts:157:13)
+  34 |
+  35 |         console.log('🤖 Calling Claude API...');
+> 36 |         const message = await anthropic.messages.create({
+     |                         ^
+  37 |             model: 'claude-3-5-sonnet-latest',
+  38 |             max_tokens: 512,
+  39 |             messages: [{ role: 'user', content: prompt }], {
+  status: 404,
+  headers: Headers {
+    date: 'Fri, 13 Feb 2026 17:43:06 GMT',
+    'content-type': 'application/json',
+    'transfer-encoding': 'chunked',
+    connection: 'keep-alive',
+    'x-should-retry': 'false',
+    'x-robots-tag': 'none',
+    'request-id': 'req_011CY6UuSnUoLrSWmaaZhyUv',
+    'strict-transport-security': 'max-age=31536000; includeSubDomains; preload',
+    'anthropic-organization-id': 'b3b6af82-efdc-4cfe-a360-430f05627f92',
+    server: 'cloudflare',
+    'x-envoy-upstream-service-time': '182',
+    'content-security-policy': "default-src 'none'; frame-ancestors 'none'",
+    'cf-cache-status': 'DYNAMIC',
+    'content-encoding': 'gzip',
+    'cf-ray': '9cd62044fc66e9e3-LAX'
+  },
+  requestID: 'req_011CY6UuSnUoLrSWmaaZhyUv',
+  error: [Object]
+}
+⚠️ Using fallback names
+Error searching Product Hunt: Error [AxiosError]: Request failed with status code 401
+    at async searchProductHunt (src/lib/api-services.ts:175:26)
+    at async POST (src/app/api/check-idea/route.ts:157:13)
+  173 |     try {
+  174 |         // Product Hunt API requires OAuth token
+> 175 |         const response = await axios.post(
+      |                          ^
+  176 |             'https://api.producthunt.com/v2/api/graphql',
+  177 |             {
+  178 |                 query: ` {
+  isAxiosError: true,
+  code: 'ERR_BAD_REQUEST',
+  config: [Object],
+  request: [ClientRequest],
+  response: [Object],
+  status: 401
+}
+Error searching trademarks: Error [AxiosError]: Request failed with status code 403
+    at async searchTrademarks (src/lib/api-services.ts:324:26)
+    at async POST (src/app/api/check-idea/route.ts:157:13)
+  322 |         const keywords = idea.split(' ').slice(0, 3).join(' ');
+  323 |
+> 324 |         const response = await axios.get(
+      |                          ^
+  325 |             `https://uspto-trademark.p.rapidapi.com/v1/trademarkSearch/${encodeURIComponent(keywords)}`,
+  326 |             {
+  327 |                 headers: { {
+  isAxiosError: true,
+  code: 'ERR_BAD_REQUEST',
+  config: [Object],
+  request: [ClientRequest],
+  response: [Object],
+  status: 403
+}
+Error checking domain helicopter.com: Error [AxiosError]: Request failed with status code 403
+    at async checkDomainAvailability (src/lib/api-services.ts:99:34)
+    at async POST (src/app/api/check-idea/route.ts:157:13)
+   97 |             try {
+   98 |                 // Using RapidAPI Domain Availability Checker
+>  99 |                 const response = await axios.get(
+      |                                  ^
+  100 |                     `https://domain-availability.whoisxmlapi.com/api/v1`,
+  101 |                     {
+  102 |                         params: { {
+  isAxiosError: true,
+  code: 'ERR_BAD_REQUEST',
+  config: [Object],
+  request: [ClientRequest],
+  response: [Object],
+  status: 403
+}
+Error checking domain helicopterapp.com: Error [AxiosError]: Request failed with status code 403
+    at async checkDomainAvailability (src/lib/api-services.ts:99:34)
+    at async POST (src/app/api/check-idea/route.ts:157:13)
+   97 |             try {
+   98 |                 // Using RapidAPI Domain Availability Checker
+>  99 |                 const response = await axios.get(
+      |                                  ^
+  100 |                     `https://domain-availability.whoisxmlapi.com/api/v1`,
+  101 |                     {
+  102 |                         params: { {
+  isAxiosError: true,
+  code: 'ERR_BAD_REQUEST',
+  config: [Object],
+  request: [ClientRequest],
+  response: [Object],
+  status: 403
+}
+Error checking domain helicopterhq.com: Error [AxiosError]: Request failed with status code 403
+    at async checkDomainAvailability (src/lib/api-services.ts:99:34)
+    at async POST (src/app/api/check-idea/route.ts:157:13)
+   97 |             try {
+   98 |                 // Using RapidAPI Domain Availability Checker
+>  99 |                 const response = await axios.get(
+      |                                  ^
+  100 |                     `https://domain-availability.whoisxmlapi.com/api/v1`,
+  101 |                     {
+  102 |                         params: { {
+  isAxiosError: true,
+  code: 'ERR_BAD_REQUEST',
+  config: [Object],
+  request: [ClientRequest],
+  response: [Object],
+  status: 403
+}
+Error checking domain gethelicopter.com: Error [AxiosError]: Request failed with status code 403
+    at async checkDomainAvailability (src/lib/api-services.ts:99:34)
+    at async POST (src/app/api/check-idea/route.ts:157:13)
+   97 |             try {
+   98 |                 // Using RapidAPI Domain Availability Checker
+>  99 |                 const response = await axios.get(
+      |                                  ^
+  100 |                     `https://domain-availability.whoisxmlapi.com/api/v1`,
+  101 |                     {
+  102 |                         params: { {
+  isAxiosError: true,
+  code: 'ERR_BAD_REQUEST',
+  config: [Object],
+  request: [ClientRequest],
+  response: [Object],
+  status: 403
+}
+Error checking domain helicopterio.com: Error [AxiosError]: Request failed with status code 403
+    at async checkDomainAvailability (src/lib/api-services.ts:99:34)
+    at async POST (src/app/api/check-idea/route.ts:157:13)
+   97 |             try {
+   98 |                 // Using RapidAPI Domain Availability Checker
+>  99 |                 const response = await axios.get(
+      |                                  ^
+  100 |                     `https://domain-availability.whoisxmlapi.com/api/v1`,
+  101 |                     {
+  102 |                         params: { {
+  isAxiosError: true,
+  code: 'ERR_BAD_REQUEST',
+  config: [Object],
+  request: [ClientRequest],
+  response: [Object],
+  status: 403
+}
+Error checking domain helicopterrides.com: Error [AxiosError]: Request failed with status code 403
+    at async checkDomainAvailability (src/lib/api-services.ts:99:34)
+    at async POST (src/app/api/check-idea/route.ts:157:13)
+   97 |             try {
+   98 |                 // Using RapidAPI Domain Availability Checker
+>  99 |                 const response = await axios.get(
+      |                                  ^
+  100 |                     `https://domain-availability.whoisxmlapi.com/api/v1`,
+  101 |                     {
+  102 |                         params: { {
+  isAxiosError: true,
+  code: 'ERR_BAD_REQUEST',
+  config: [Object],
+  request: [ClientRequest],
+  response: [Object],
+  status: 403
+}
+Error with AI analysis: Error: 404 {"type":"error","error":{"type":"not_found_error","message":"model: claude-3-5-sonnet-latest"},"request_id":"req_011CY6Uv1VV5CXqpXaGZbpNU"}
+    at async analyzeWithAI (src/lib/api-services.ts:388:25)
+    at async POST (src/app/api/check-idea/route.ts:202:26)
+  386 | }`;
+  387 |
+> 388 |         const message = await anthropic.messages.create({
+      |                         ^
+  389 |             model: 'claude-3-5-sonnet-latest',
+  390 |             max_tokens: 2000,
+  391 |             messages: [{ role: 'user', content: prompt }], {
+  status: 404,
+  headers: Headers {
+    date: 'Fri, 13 Feb 2026 17:43:13 GMT',
+    'content-type': 'application/json',
+    'transfer-encoding': 'chunked',
+    connection: 'keep-alive',
+    'x-should-retry': 'false',
+    'x-robots-tag': 'none',
+    'request-id': 'req_011CY6Uv1VV5CXqpXaGZbpNU',
+    'strict-transport-security': 'max-age=31536000; includeSubDomains; preload',
+    'anthropic-organization-id': 'b3b6af82-efdc-4cfe-a360-430f05627f92',
+    server: 'cloudflare',
+    'x-envoy-upstream-service-time': '50',
+    'content-security-policy': "default-src 'none'; frame-ancestors 'none'",
+    'cf-cache-status': 'DYNAMIC',
+    'content-encoding': 'gzip',
+    'cf-ray': '9cd62074a9dbcb9c-LAX'
+  },
+  requestID: 'req_011CY6Uv1VV5CXqpXaGZbpNU',
+  error: [Object]
+}
+Analysis complete for: "Helicopter rides for dogs" - Score: 0 (8786ms)
+ POST /api/check-idea 200 in 9.0s (compile: 193ms, render: 8.8s)
+Checking idea: "Skydiving for hamsters" (User: anonymous)
+No cached result found
+Cache miss - fetching fresh data for: "Skydiving for hamsters"
+🎨 Generating creative domain names for: Skydiving for hamsters
+🤖 Calling Claude API...
+Error searching Product Hunt: Error [AxiosError]: Request failed with status code 401
+    at async searchProductHunt (src/lib/api-services.ts:175:26)
+    at async POST (src/app/api/check-idea/route.ts:157:13)
+  173 |     try {
+  174 |         // Product Hunt API requires OAuth token
+> 175 |         const response = await axios.post(
+      |                          ^
+  176 |             'https://api.producthunt.com/v2/api/graphql',
+  177 |             {
+  178 |                 query: ` {
+  isAxiosError: true,
+  code: 'ERR_BAD_REQUEST',
+  config: [Object],
+  request: [ClientRequest],
+  response: [Object],
+  status: 401
+}
+❌ Error generating creative domain names: Error: 404 {"type":"error","error":{"type":"not_found_error","message":"model: claude-3-5-sonnet-20240620"},"request_id":"req_011CY6Uxbhb37YqSdCSnWuL5"}
+    at async generateCreativeDomainNames (src/lib/api-services.ts:36:25)
+    at async checkDomainAvailability (src/lib/api-services.ts:87:27)
+    at async POST (src/app/api/check-idea/route.ts:157:13)
+  34 |
+  35 |         console.log('🤖 Calling Claude API...');
+> 36 |         const message = await anthropic.messages.create({
+     |                         ^
+  37 |             model: 'claude-3-5-sonnet-20240620',
+  38 |             max_tokens: 512,
+  39 |             messages: [{ role: 'user', content: prompt }], {
+  status: 404,
+  headers: Headers {
+    date: 'Fri, 13 Feb 2026 17:43:48 GMT',
+    'content-type': 'application/json',
+    'transfer-encoding': 'chunked',
+    connection: 'keep-alive',
+    'x-should-retry': 'false',
+    'x-robots-tag': 'none',
+    'request-id': 'req_011CY6Uxbhb37YqSdCSnWuL5',
+    'strict-transport-security': 'max-age=31536000; includeSubDomains; preload',
+    'anthropic-organization-id': 'b3b6af82-efdc-4cfe-a360-430f05627f92',
+    server: 'cloudflare',
+    'x-envoy-upstream-service-time': '105',
+    'content-security-policy': "default-src 'none'; frame-ancestors 'none'",
+    'cf-cache-status': 'DYNAMIC',
+    'content-encoding': 'gzip',
+    'cf-ray': '9cd621505a447bcb-LAX'
+  },
+  requestID: 'req_011CY6Uxbhb37YqSdCSnWuL5',
+  error: [Object]
+}
+⚠️ Using fallback names
+Error searching trademarks: Error [AxiosError]: Request failed with status code 403
+    at async searchTrademarks (src/lib/api-services.ts:324:26)
+    at async POST (src/app/api/check-idea/route.ts:157:13)
+  322 |         const keywords = idea.split(' ').slice(0, 3).join(' ');
+  323 |
+> 324 |         const response = await axios.get(
+      |                          ^
+  325 |             `https://uspto-trademark.p.rapidapi.com/v1/trademarkSearch/${encodeURIComponent(keywords)}`,
+  326 |             {
+  327 |                 headers: { {
+  isAxiosError: true,
+  code: 'ERR_BAD_REQUEST',
+  config: [Object],
+  request: [ClientRequest],
+  response: [Object],
+  status: 403
+}
+Error checking domain skydiving.com: Error [AxiosError]: Request failed with status code 403
+    at async checkDomainAvailability (src/lib/api-services.ts:99:34)
+    at async POST (src/app/api/check-idea/route.ts:157:13)
+   97 |             try {
+   98 |                 // Using RapidAPI Domain Availability Checker
+>  99 |                 const response = await axios.get(
+      |                                  ^
+  100 |                     `https://domain-availability.whoisxmlapi.com/api/v1`,
+  101 |                     {
+  102 |                         params: { {
+  isAxiosError: true,
+  code: 'ERR_BAD_REQUEST',
+  config: [Object],
+  request: [ClientRequest],
+  response: [Object],
+  status: 403
+}
+Error checking domain skydivingapp.com: Error [AxiosError]: Request failed with status code 403
+    at async checkDomainAvailability (src/lib/api-services.ts:99:34)
+    at async POST (src/app/api/check-idea/route.ts:157:13)
+   97 |             try {
+   98 |                 // Using RapidAPI Domain Availability Checker
+>  99 |                 const response = await axios.get(
+      |                                  ^
+  100 |                     `https://domain-availability.whoisxmlapi.com/api/v1`,
+  101 |                     {
+  102 |                         params: { {
+  isAxiosError: true,
+  code: 'ERR_BAD_REQUEST',
+  config: [Object],
+  request: [ClientRequest],
+  response: [Object],
+  status: 403
+}
+Error checking domain skydivinghq.com: Error [AxiosError]: Request failed with status code 403
+    at async checkDomainAvailability (src/lib/api-services.ts:99:34)
+    at async POST (src/app/api/check-idea/route.ts:157:13)
+   97 |             try {
+   98 |                 // Using RapidAPI Domain Availability Checker
+>  99 |                 const response = await axios.get(
+      |                                  ^
+  100 |                     `https://domain-availability.whoisxmlapi.com/api/v1`,
+  101 |                     {
+  102 |                         params: { {
+  isAxiosError: true,
+  code: 'ERR_BAD_REQUEST',
+  config: [Object],
+  request: [ClientRequest],
+  response: [Object],
+  status: 403
+}
+Error checking domain getskydiving.com: Error [AxiosError]: Request failed with status code 403
+    at async checkDomainAvailability (src/lib/api-services.ts:99:34)
+    at async POST (src/app/api/check-idea/route.ts:157:13)
+   97 |             try {
+   98 |                 // Using RapidAPI Domain Availability Checker
+>  99 |                 const response = await axios.get(
+      |                                  ^
+  100 |                     `https://domain-availability.whoisxmlapi.com/api/v1`,
+  101 |                     {
+  102 |                         params: { {
+  isAxiosError: true,
+  code: 'ERR_BAD_REQUEST',
+  config: [Object],
+  request: [ClientRequest],
+  response: [Object],
+  status: 403
+}
+Error checking domain skydivingio.com: Error [AxiosError]: Request failed with status code 403
+    at async checkDomainAvailability (src/lib/api-services.ts:99:34)
+    at async POST (src/app/api/check-idea/route.ts:157:13)
+   97 |             try {
+   98 |                 // Using RapidAPI Domain Availability Checker
+>  99 |                 const response = await axios.get(
+      |                                  ^
+  100 |                     `https://domain-availability.whoisxmlapi.com/api/v1`,
+  101 |                     {
+  102 |                         params: { {
+  isAxiosError: true,
+  code: 'ERR_BAD_REQUEST',
+  config: [Object],
+  request: [ClientRequest],
+  response: [Object],
+  status: 403
+}
+Error checking domain skydivinghamsters.com: Error [AxiosError]: Request failed with status code 403
+    at async checkDomainAvailability (src/lib/api-services.ts:99:34)
+    at async POST (src/app/api/check-idea/route.ts:157:13)
+   97 |             try {
+   98 |                 // Using RapidAPI Domain Availability Checker
+>  99 |                 const response = await axios.get(
+      |                                  ^
+  100 |                     `https://domain-availability.whoisxmlapi.com/api/v1`,
+  101 |                     {
+  102 |                         params: { {
+  isAxiosError: true,
+  code: 'ERR_BAD_REQUEST',
+  config: [Object],
+  request: [ClientRequest],
+  response: [Object],
+  status: 403
+}
+Error with AI analysis: Error: 404 {"type":"error","error":{"type":"not_found_error","message":"model: claude-3-5-sonnet-20240620"},"request_id":"req_011CY6UxnisHpFxGPs9KE9ma"}
+    at async analyzeWithAI (src/lib/api-services.ts:388:25)
+    at async POST (src/app/api/check-idea/route.ts:202:26)
+  386 | }`;
+  387 |
+> 388 |         const message = await anthropic.messages.create({
+      |                         ^
+  389 |             model: 'claude-3-5-sonnet-20240620',
+  390 |             max_tokens: 2000,
+  391 |             messages: [{ role: 'user', content: prompt }], {
+  status: 404,
+  headers: Headers {
+    date: 'Fri, 13 Feb 2026 17:43:51 GMT',
+    'content-type': 'application/json',
+    'transfer-encoding': 'chunked',
+    connection: 'keep-alive',
+    'x-should-retry': 'false',
+    'x-robots-tag': 'none',
+    'request-id': 'req_011CY6UxnisHpFxGPs9KE9ma',
+    'strict-transport-security': 'max-age=31536000; includeSubDomains; preload',
+    'anthropic-organization-id': 'b3b6af82-efdc-4cfe-a360-430f05627f92',
+    server: 'cloudflare',
+    'x-envoy-upstream-service-time': '47',
+    'content-security-policy': "default-src 'none'; frame-ancestors 'none'",
+    'cf-cache-status': 'DYNAMIC',
+    'content-encoding': 'gzip',
+    'cf-ray': '9cd621607b677bcb-LAX'
+  },
+  requestID: 'req_011CY6UxnisHpFxGPs9KE9ma',
+  error: [Object]
+}
+Analysis complete for: "Skydiving for hamsters" - Score: 10 (4094ms)
+ POST /api/check-idea 200 in 4.2s (compile: 109ms, render: 4.1s)
+Checking idea: "Underwear monthly subscription" (User: anonymous)
+No cached result found
+Cache miss - fetching fresh data for: "Underwear monthly subscription"
+🎨 Generating creative domain names for: Underwear monthly subscription
+🤖 Calling Claude API...
+Error searching Product Hunt: Error [AxiosError]: Request failed with status code 401
+    at async searchProductHunt (src/lib/api-services.ts:175:26)
+    at async POST (src/app/api/check-idea/route.ts:157:13)
+  173 |     try {
+  174 |         // Product Hunt API requires OAuth token
+> 175 |         const response = await axios.post(
+      |                          ^
+  176 |             'https://api.producthunt.com/v2/api/graphql',
+  177 |             {
+  178 |                 query: ` {
+  isAxiosError: true,
+  code: 'ERR_BAD_REQUEST',
+  config: [Object],
+  request: [ClientRequest],
+  response: [Object],
+  status: 401
+}
+Error searching trademarks: Error [AxiosError]: Request failed with status code 403
+    at async searchTrademarks (src/lib/api-services.ts:324:26)
+    at async POST (src/app/api/check-idea/route.ts:157:13)
+  322 |         const keywords = idea.split(' ').slice(0, 3).join(' ');
+  323 |
+> 324 |         const response = await axios.get(
+      |                          ^
+  325 |             `https://uspto-trademark.p.rapidapi.com/v1/trademarkSearch/${encodeURIComponent(keywords)}`,
+  326 |             {
+  327 |                 headers: { {
+  isAxiosError: true,
+  code: 'ERR_BAD_REQUEST',
+  config: [Object],
+  request: [ClientRequest],
+  response: [Object],
+  status: 403
+}
+✅ AI Response: UndrClub
+WearMore
+SupplyMe
+UndiBox
+MonthlyX
+EssentiX
+SkivvyScribe
+SubScrib
+🎯 Parsed names: [
+  'undrclub',
+  'wearmore',
+  'supplyme',
+  'undibox',
+  'monthlyx',
+  'essentix',
+  'skivvyscribe',
+  'subscrib'
+]
+Error checking domain undrclub.com: Error [AxiosError]: Request failed with status code 403
+    at async checkDomainAvailability (src/lib/api-services.ts:99:34)
+    at async POST (src/app/api/check-idea/route.ts:157:13)
+   97 |             try {
+   98 |                 // Using RapidAPI Domain Availability Checker
+>  99 |                 const response = await axios.get(
+      |                                  ^
+  100 |                     `https://domain-availability.whoisxmlapi.com/api/v1`,
+  101 |                     {
+  102 |                         params: { {
+  isAxiosError: true,
+  code: 'ERR_BAD_REQUEST',
+  config: [Object],
+  request: [ClientRequest],
+  response: [Object],
+  status: 403
+}
+Error checking domain wearmore.com: Error [AxiosError]: Request failed with status code 403
+    at async checkDomainAvailability (src/lib/api-services.ts:99:34)
+    at async POST (src/app/api/check-idea/route.ts:157:13)
+   97 |             try {
+   98 |                 // Using RapidAPI Domain Availability Checker
+>  99 |                 const response = await axios.get(
+      |                                  ^
+  100 |                     `https://domain-availability.whoisxmlapi.com/api/v1`,
+  101 |                     {
+  102 |                         params: { {
+  isAxiosError: true,
+  code: 'ERR_BAD_REQUEST',
+  config: [Object],
+  request: [ClientRequest],
+  response: [Object],
+  status: 403
+}
+Error checking domain supplyme.com: Error [AxiosError]: Request failed with status code 403
+    at async checkDomainAvailability (src/lib/api-services.ts:99:34)
+    at async POST (src/app/api/check-idea/route.ts:157:13)
+   97 |             try {
+   98 |                 // Using RapidAPI Domain Availability Checker
+>  99 |                 const response = await axios.get(
+      |                                  ^
+  100 |                     `https://domain-availability.whoisxmlapi.com/api/v1`,
+  101 |                     {
+  102 |                         params: { {
+  isAxiosError: true,
+  code: 'ERR_BAD_REQUEST',
+  config: [Object],
+  request: [ClientRequest],
+  response: [Object],
+  status: 403
+}
+Error checking domain undibox.com: Error [AxiosError]: Request failed with status code 403
+    at async checkDomainAvailability (src/lib/api-services.ts:99:34)
+    at async POST (src/app/api/check-idea/route.ts:157:13)
+   97 |             try {
+   98 |                 // Using RapidAPI Domain Availability Checker
+>  99 |                 const response = await axios.get(
+      |                                  ^
+  100 |                     `https://domain-availability.whoisxmlapi.com/api/v1`,
+  101 |                     {
+  102 |                         params: { {
+  isAxiosError: true,
+  code: 'ERR_BAD_REQUEST',
+  config: [Object],
+  request: [ClientRequest],
+  response: [Object],
+  status: 403
+}
+Error checking domain monthlyx.com: Error [AxiosError]: Request failed with status code 403
+    at async checkDomainAvailability (src/lib/api-services.ts:99:34)
+    at async POST (src/app/api/check-idea/route.ts:157:13)
+   97 |             try {
+   98 |                 // Using RapidAPI Domain Availability Checker
+>  99 |                 const response = await axios.get(
+      |                                  ^
+  100 |                     `https://domain-availability.whoisxmlapi.com/api/v1`,
+  101 |                     {
+  102 |                         params: { {
+  isAxiosError: true,
+  code: 'ERR_BAD_REQUEST',
+  config: [Object],
+  request: [ClientRequest],
+  response: [Object],
+  status: 403
+}
+Error checking domain essentix.com: Error [AxiosError]: Request failed with status code 403
+    at async checkDomainAvailability (src/lib/api-services.ts:99:34)
+    at async POST (src/app/api/check-idea/route.ts:157:13)
+   97 |             try {
+   98 |                 // Using RapidAPI Domain Availability Checker
+>  99 |                 const response = await axios.get(
+      |                                  ^
+  100 |                     `https://domain-availability.whoisxmlapi.com/api/v1`,
+  101 |                     {
+  102 |                         params: { {
+  isAxiosError: true,
+  code: 'ERR_BAD_REQUEST',
+  config: [Object],
+  request: [ClientRequest],
+  response: [Object],
+  status: 403
+}
+Error checking domain skivvyscribe.com: Error [AxiosError]: Request failed with status code 403
+    at async checkDomainAvailability (src/lib/api-services.ts:99:34)
+    at async POST (src/app/api/check-idea/route.ts:157:13)
+   97 |             try {
+   98 |                 // Using RapidAPI Domain Availability Checker
+>  99 |                 const response = await axios.get(
+      |                                  ^
+  100 |                     `https://domain-availability.whoisxmlapi.com/api/v1`,
+  101 |                     {
+  102 |                         params: { {
+  isAxiosError: true,
+  code: 'ERR_BAD_REQUEST',
+  config: [Object],
+  request: [ClientRequest],
+  response: [Object],
+  status: 403
+}
+Error checking domain subscrib.com: Error [AxiosError]: Request failed with status code 403
+    at async checkDomainAvailability (src/lib/api-services.ts:99:34)
+    at async POST (src/app/api/check-idea/route.ts:157:13)
+   97 |             try {
+   98 |                 // Using RapidAPI Domain Availability Checker
+>  99 |                 const response = await axios.get(
+      |                                  ^
+  100 |                     `https://domain-availability.whoisxmlapi.com/api/v1`,
+  101 |                     {
+  102 |                         params: { {
+  isAxiosError: true,
+  code: 'ERR_BAD_REQUEST',
+  config: [Object],
+  request: [ClientRequest],
+  response: [Object],
+  status: 403
+}
+Analysis complete for: "Underwear monthly subscription" - Score: 60 (13369ms)
+ POST /api/check-idea 200 in 13.5s (compile: 101ms, render: 13.4s)
+Persisting failed: Unable to write SST file 00000063.sst
+
+Caused by:
+    No such file or directory (os error 2)

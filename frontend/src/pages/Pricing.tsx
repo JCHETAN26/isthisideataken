@@ -6,8 +6,8 @@ import PricingCard from "@/components/PricingCard";
 import { cn } from "@/lib/utils";
 
 const faqs = [
-  { q: "What sources do you search?", a: "We check domain availability, App Store, Google Play, Product Hunt, Reddit, Google Trends, GitHub, and USPTO trademarks." },
-  { q: "How accurate is the viability score?", a: "The score is based on real data from 7 sources. It's a directional indicator, not a guarantee — use it alongside your own research." },
+  { q: "What sources do you search?", a: "We check App Store, Google Play, Product Hunt, Reddit, Google Trends, GitHub, and USPTO trademarks." },
+  { q: "How accurate is the viability score?", a: "The score is based on real data from 6 sources. It's a directional indicator, not a guarantee — use it alongside your own research." },
   { q: "Can I export my results?", a: "Pro users can export full reports as PDF. Free users get on-screen results only." },
   { q: "Is there a team plan?", a: "Not yet, but it's coming soon. Contact us if you're interested in volume pricing." },
   { q: "Can I cancel anytime?", a: "Yes. Cancel your Pro subscription anytime, no questions asked. You'll keep access through the end of your billing period." },
@@ -37,7 +37,7 @@ const Pricing = () => {
               "Ad supported",
             ]}
             cta="Get Started"
-            onCta={() => {}}
+            onCta={() => { }}
           />
           <PricingCard
             title="Pro"
@@ -52,7 +52,7 @@ const Pricing = () => {
               "No ads",
             ]}
             cta="Start Free Trial"
-            onCta={() => {}}
+            onCta={() => { }}
           />
         </div>
 

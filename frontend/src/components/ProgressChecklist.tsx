@@ -3,7 +3,6 @@ import { Check, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const steps = [
-  "Checking domain availability...",
   "Searching App Store & Google Play...",
   "Scanning Product Hunt...",
   "Searching Reddit...",

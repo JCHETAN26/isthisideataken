@@ -153,9 +153,8 @@ export async function POST(request: NextRequest) {
         console.log(`Cache miss - fetching fresh data for: "${idea}"`);
 
         // Run all API calls in parallel for speed
-        const [domains, appStore, productHunt, reddit, github, trends, trademark] =
+        const [appStore, productHunt, reddit, github, trends, trademark] =
             await Promise.allSettled([
-                checkDomainAvailability(idea),
                 searchAppStore(idea),
                 searchProductHunt(idea),
                 searchReddit(idea),
@@ -166,7 +165,7 @@ export async function POST(request: NextRequest) {
 
         // Extract successful results or use empty arrays
         const sources = {
-            domains: domains.status === 'fulfilled' ? domains.value : [],
+            domains: [],
             appStore: appStore.status === 'fulfilled' ? appStore.value : [],
             productHunt: productHunt.status === 'fulfilled' ? productHunt.value : [],
             reddit: reddit.status === 'fulfilled' ? reddit.value : [],
@@ -183,7 +182,6 @@ export async function POST(request: NextRequest) {
 
         // Log any failures
         const failures = [
-            { name: 'domains', result: domains },
             { name: 'appStore', result: appStore },
             { name: 'productHunt', result: productHunt },
             { name: 'reddit', result: reddit },

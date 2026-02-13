@@ -36,7 +36,7 @@ const Index = () => {
           </h1>
 
           <p className="text-base sm:text-lg text-muted-foreground max-w-xl mx-auto mb-10 opacity-0 animate-fade-in-up" style={{ animationDelay: "0.25s" }}>
-            Search domains, App Store, Product Hunt, Reddit, GitHub and more — in one shot.
+            Search App Store, Product Hunt, Reddit, GitHub and more — in one shot.
           </p>
 
           <div className="opacity-0 animate-fade-in-up" style={{ animationDelay: "0.4s" }}>
@@ -52,7 +52,7 @@ const Index = () => {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
             {[
               { icon: Search, step: "01", title: "Describe your idea", desc: "Write your startup concept in plain English." },
-              { icon: Zap, step: "02", title: "We search 7 sources", desc: "Domains, apps, PH, Reddit, trends, GitHub, trademarks." },
+              { icon: Zap, step: "02", title: "We search 6 sources", desc: "Apps, PH, Reddit, trends, GitHub, trademarks." },
               { icon: BarChart3, step: "03", title: "Get your score", desc: "Instant viability report with competitors and risks." },
             ].map((item) => (
               <div key={item.step} className="text-center group">

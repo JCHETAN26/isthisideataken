@@ -33,18 +33,6 @@ const Results = () => {
   // Map sources to the format expected by SourceCard
   const sources = [
     {
-      source: "Domains",
-      status: (result.sources.domains.some(d => d.available) ? "available" : "taken") as "available" | "taken",
-      summary: result.sources.domains.some(d => d.available) ? "Some domains available" : "All major domains taken",
-      items: result.sources.domains.map(d => ({
-        label: d.domain,
-        sub: d.available ? "Available (Buy Now)" : "Taken (Visit Site)",
-        url: d.available
-          ? `https://www.namecheap.com/domains/registration/results/?domain=${d.domain}`
-          : `http://${d.domain}`
-      }))
-    },
-    {
       source: "App Store",
       status: (result.sources.appStore.length > 0 ? "found" : "clear") as "found" | "clear",
       summary: result.sources.appStore.length > 0 ? `${result.sources.appStore.length} similar apps found` : "No direct competitors found",

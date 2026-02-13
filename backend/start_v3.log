@@ -1,0 +1,5 @@
+
+> ideataken-backend@1.0.0 dev
+> next dev -p 3001
+
+You are using Node.js 20.2.0. For Next.js, Node.js version ">=20.9.0" is required.

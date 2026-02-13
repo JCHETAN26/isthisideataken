@@ -1,0 +1,155 @@
+⚠ Warning: Next.js inferred your workspace root, but it may not be correct.
+ We detected multiple lockfiles and selected the directory of /Users/chetan/package-lock.json as the root directory.
+ To silence this warning, set `turbopack.root` in your Next.js config, or consider removing one of the lockfiles if it's not needed.
+   See https://nextjs.org/docs/app/api-reference/config/next-config-js/turbopack#root-directory for more information.
+ Detected additional lockfiles: 
+   * /Users/chetan/is-my-idea-taken/backend/package-lock.json
+
+▲ Next.js 16.1.6 (Turbopack)
+- Local:         http://localhost:3001
+- Network:       http://192.168.0.96:3001
+- Environments: .env.local
+
+✓ Starting...
+✓ Ready in 843ms
+Checking idea: "Tinder for pet rocks" (User: anonymous)
+No cached result found
+Cache miss - fetching fresh data for: "Tinder for pet rocks"
+🎨 Generating creative domain names for: Tinder for pet rocks
+🤖 Calling Claude API...
+Error searching Product Hunt: Error [AxiosError]: Request failed with status code 401
+    at async searchProductHunt (src/lib/api-services.ts:173:26)
+    at async POST (src/app/api/check-idea/route.ts:157:13)
+  171 |     try {
+  172 |         // Product Hunt API requires OAuth token
+> 173 |         const response = await axios.post(
+      |                          ^
+  174 |             'https://api.producthunt.com/v2/api/graphql',
+  175 |             {
+  176 |                 query: ` {
+  isAxiosError: true,
+  code: 'ERR_BAD_REQUEST',
+  config: [Object],
+  request: [ClientRequest],
+  response: [Object],
+  status: 401
+}
+✅ AI Response: Pettle
+Rockspark
+Pebblematch
+Petfinder
+Rockaffect
+Petromance
+Petparade
+Rocknect
+🎯 Parsed names: [
+  'pettle',
+  'rockspark',
+  'pebblematch',
+  'petfinder',
+  'rockaffect',
+  'petromance',
+  'petparade',
+  'rocknect'
+]
+Error searching trademarks: Error [AxiosError]: Request failed with status code 403
+    at async searchTrademarks (src/lib/api-services.ts:322:26)
+    at async POST (src/app/api/check-idea/route.ts:157:13)
+  320 |         const keywords = idea.split(' ').slice(0, 3).join(' ');
+  321 |
+> 322 |         const response = await axios.get(
+      |                          ^
+  323 |             `https://uspto-trademark.p.rapidapi.com/v1/trademarkSearch/${encodeURIComponent(keywords)}`,
+  324 |             {
+  325 |                 headers: { {
+  isAxiosError: true,
+  code: 'ERR_BAD_REQUEST',
+  config: [Object],
+  request: [ClientRequest],
+  response: [Object],
+  status: 403
+}
+✅ Checked pettle.com: Taken
+✅ Checked rockspark.com: Taken
+✅ Checked pebblematch.com: Taken
+✅ Checked petfinder.com: Taken
+✅ Checked rockaffect.com: Available
+✅ Checked petromance.com: Taken
+✅ Checked petparade.com: Taken
+✅ Checked rocknect.com: Available
+Analysis complete for: "Tinder for pet rocks" - Score: 60 (8185ms)
+ POST /api/check-idea 200 in 8.8s (compile: 557ms, render: 8.2s)
+ OPTIONS /api/check-idea 200 in 125ms (compile: 78ms, render: 47ms)
+Checking idea: "AI powered gardening assistant" (User: anonymous)
+No cached result found
+Cache miss - fetching fresh data for: "AI powered gardening assistant"
+🎨 Generating creative domain names for: AI powered gardening assistant
+🤖 Calling Claude API...
+Error searching Product Hunt: Error [AxiosError]: Request failed with status code 401
+    at async searchProductHunt (src/lib/api-services.ts:173:26)
+    at async POST (src/app/api/check-idea/route.ts:157:13)
+  171 |     try {
+  172 |         // Product Hunt API requires OAuth token
+> 173 |         const response = await axios.post(
+      |                          ^
+  174 |             'https://api.producthunt.com/v2/api/graphql',
+  175 |             {
+  176 |                 query: ` {
+  isAxiosError: true,
+  code: 'ERR_BAD_REQUEST',
+  config: [Object],
+  request: [ClientRequest],
+  response: [Object],
+  status: 401
+}
+Error searching trademarks: Error [AxiosError]: Request failed with status code 403
+    at async searchTrademarks (src/lib/api-services.ts:322:26)
+    at async POST (src/app/api/check-idea/route.ts:157:13)
+  320 |         const keywords = idea.split(' ').slice(0, 3).join(' ');
+  321 |
+> 322 |         const response = await axios.get(
+      |                          ^
+  323 |             `https://uspto-trademark.p.rapidapi.com/v1/trademarkSearch/${encodeURIComponent(keywords)}`,
+  324 |             {
+  325 |                 headers: { {
+  isAxiosError: true,
+  code: 'ERR_BAD_REQUEST',
+  config: [Object],
+  request: [ClientRequest],
+  response: [Object],
+  status: 403
+}
+✅ AI Response: Greentell
+GardenAI
+Bloomintel
+Floracast
+Leafly
+Plantpro
+GrowSmart
+Verdantly
+🎯 Parsed names: [
+  'greentell',
+  'gardenai',
+  'bloomintel',
+  'floracast',
+  'leafly',
+  'plantpro',
+  'growsmart',
+  'verdantly'
+]
+✅ Checked greentell.com: Taken
+✅ Checked gardenai.com: Taken
+Error checking domain bloomintel.com: Error: queryA ENODATA bloomintel.com
+    at ignore-listed frames {
+  errno: undefined,
+  code: 'ENODATA',
+  syscall: 'queryA',
+  hostname: 'bloomintel.com'
+}
+✅ Checked floracast.com: Taken
+✅ Checked leafly.com: Taken
+✅ Checked plantpro.com: Taken
+✅ Checked growsmart.com: Taken
+✅ Checked verdantly.com: Taken
+Analysis complete for: "AI powered gardening assistant" - Score: 80 (6549ms)
+ POST /api/check-idea 200 in 6.6s (compile: 5ms, render: 6.6s)
