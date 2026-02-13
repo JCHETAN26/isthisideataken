@@ -11,7 +11,7 @@ export default function HomePage() {
         }}>
             <div style={{ textAlign: 'center', maxWidth: '600px', padding: '2rem' }}>
                 <h1 style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>
-                    IdeaTaken Backend API
+                    IsThisIdeaTaken Backend API
                 </h1>
                 <p style={{ color: '#a0a0b0', marginBottom: '2rem' }}>
                     The backend API is running successfully.
