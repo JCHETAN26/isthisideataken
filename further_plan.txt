@@ -1,0 +1,32 @@
+1. Score Decomposition (most impactful thing you can build)
+Instead of showing one novelty score, break it into visible sub-scores that add up to the final number. Something like:
+
+App Store saturation → 3 direct competitors found → −18 pts
+GitHub activity → 2 repos, both abandoned → −5 pts
+Reddit sentiment → mostly problem-discussion, no solutions → +12 pts
+Scholar / research gap → 0 papers on this specific angle → +15 pts
+Final: 72 Blue Ocean
+
+Now the user can follow the math. They might disagree with one component, but the logic is traceable. This alone kills 80% of the trust problem.
+
+2. Live, Clickable Evidence Cards
+Every source that influenced the score should surface as a card the user can open — not just a URL, but a short excerpt showing why it was relevant or why it was dismissed. The key distinction is showing dismissed results too. If your AI found 10 things and only 3 were truly relevant, showing all 10 with reasoning ("this was about food drones, not delivery logistics") is far more credible than hiding the noise.
+This transforms your product from "trust us" to "here's our work."
+
+3. The Challenge Layer — your biggest differentiator
+This is the one no competitor will have easily. After the report, give the user a prompt: "Disagree with a finding? Tell us why." The AI then defends or concedes its position based on the user's argument.
+If a user says "you missed this competitor" and pastes a URL, the system re-analyzes and either says "you're right, this shifts your score to 65" or "we considered this category but your angle differs because X."
+The concession case is actually more trust-building than being right. An AI that can say "good catch, we've updated your report" feels honest. An AI that never budges feels defensive and brittle.
+
+4. Confidence Tiers, not false precision
+Stop showing decimal-level precision if your data density doesn't support it. Instead, show three tiers:
+
+High confidence — 15+ sources, multiple platforms, recent data
+Medium confidence — 5–14 sources, some gaps
+Low confidence — sparse data, niche market, recommend manual research
+
+Counterintuitively, admitting low confidence on some ideas makes your high confidence ratings feel more trustworthy. Users respect tools that know their limits.
+
+5. The Methodology Page (underrated)
+A single, plain-English page explaining exactly how the score is calculated — what sources are checked, what weights are applied, what counts as a "direct competitor" vs. a "adjacent product" — does a lot of heavy lifting before users even run their first scan. Founders are analytical people. They want to understand the system before they trust it.
+

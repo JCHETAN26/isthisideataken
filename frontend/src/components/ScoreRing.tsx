@@ -13,8 +13,8 @@ const ScoreRing = ({ score, size = 180 }: ScoreRingProps) => {
   const offset = circumference - (animatedScore / 100) * circumference;
 
   const getColor = () => {
-    if (score < 30) return "hsl(var(--success))";
-    if (score <= 70) return "hsl(var(--warning))";
+    if (score >= 80) return "hsl(var(--success))";
+    if (score >= 40) return "hsl(var(--warning))";
     return "hsl(var(--destructive))";
   };
 

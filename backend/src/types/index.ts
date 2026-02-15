@@ -92,20 +92,31 @@ export interface Competitor {
   url: string;
   description: string;
   source: string;
+  status: 'relevant' | 'dismissed';
+  reasoning: string;
 }
 
 export type Verdict = 'Wide Open' | 'Opportunity' | 'Crowded' | 'Taken';
+export type ConfidenceLevel = 'High' | 'Medium' | 'Low';
+
+export interface ScoreComponent {
+  label: string;
+  score: number; // e.g. -15 or +10
+  description: string;
+}
 
 export interface AIAnalysis {
   overallScore: number; // 0-100
   verdict: Verdict;
+  confidenceScore: number;
+  confidenceLevel: ConfidenceLevel;
+  scoreBreakdown: ScoreComponent[];
   topCompetitors: Competitor[];
   keyRisks?: string[];
   recommendation: string;
   nicheOpportunities?: string[];
   uniqueAngles?: string[];
   marketGaps?: string;
-  confidenceScore: number;
   sentiment: 'Positive' | 'Neutral' | 'Critical';
 }
 

@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
-import { AlertTriangle, Share2, ArrowLeft, Lock, Sparkles } from "lucide-react";
+import { useState, useEffect } from "react";
+import { AlertTriangle, Share2, ArrowLeft, Lock, Sparkles, CheckCircle2, XCircle, Info, BarChart3, MessageSquare, Send, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -8,20 +8,52 @@ import ScoreRing from "@/components/ScoreRing";
 import VerdictBadge from "@/components/VerdictBadge";
 import SourceCard from "@/components/SourceCard";
 import CompetitorCard from "@/components/CompetitorCard";
-import type { IdeaCheckResult } from "@/lib/api";
+import { type IdeaCheckResult, challengeAI } from "@/lib/api";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Results = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { query, result } = (location.state as { query?: string; result?: IdeaCheckResult }) || {};
+  const { user } = useAuth();
+  const { query, result: initialResult } = (location.state as { query?: string; result?: IdeaCheckResult }) || {};
+
+  const [result, setResult] = useState<IdeaCheckResult | null>(initialResult || null);
+  const [challenge, setChallenge] = useState("");
+  const [isChallenging, setIsChallenging] = useState(false);
 
   useEffect(() => {
-    if (!result) {
+    if (!initialResult) {
       navigate("/");
     }
-  }, [result, navigate]);
+  }, [initialResult, navigate]);
 
   if (!result) return null;
+
+  const handleChallenge = async () => {
+    if (!challenge.trim()) return;
+
+    setIsChallenging(true);
+    try {
+      const response = await challengeAI(
+        query || result.idea,
+        result.sources,
+        challenge,
+        result.analysis,
+        user?.id
+      );
+
+      setResult({
+        ...result,
+        analysis: response.analysis
+      });
+      setChallenge("");
+      toast.success("AI has reconsidered its analysis!");
+    } catch (error) {
+      toast.error("Failed to process challenge. Please try again.");
+    } finally {
+      setIsChallenging(false);
+    }
+  };
 
   const handleShare = () => {
     navigator.clipboard.writeText(
@@ -144,26 +176,50 @@ const Results = () => {
         <h1 className="text-xl sm:text-2xl font-bold text-foreground mb-8">"{query}"</h1>
 
         {/* Score hero */}
-        <div className="flex flex-col sm:flex-row items-center gap-6 mb-12 opacity-0 animate-fade-in-up" style={{ animationDelay: "0.1s" }}>
+        <div className="flex flex-col md:flex-row items-center gap-8 mb-12 opacity-0 animate-fade-in-up" style={{ animationDelay: "0.1s" }}>
           <ScoreRing score={result.analysis.overallScore} />
-          <div>
-            <div className="flex items-center gap-3 mb-2">
+          <div className="flex-1 w-full">
+            <div className="flex flex-wrap items-center gap-3 mb-3">
               <VerdictBadge verdict={result.analysis.verdict} className="text-sm" />
+
               <div className="flex items-center gap-2">
+                <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${result.analysis.confidenceLevel === 'High' ? 'bg-green-500/10 text-green-500' :
+                  result.analysis.confidenceLevel === 'Medium' ? 'bg-blue-500/10 text-blue-500' :
+                    'bg-orange-500/10 text-orange-500'
+                  }`}>
+                  {result.analysis.confidenceLevel} Confidence
+                </span>
                 <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${result.analysis.sentiment === 'Positive' ? 'bg-green-500/10 text-green-500' :
                   result.analysis.sentiment === 'Critical' ? 'bg-red-500/10 text-red-500' :
                     'bg-blue-500/10 text-blue-500'
                   }`}>
                   {result.analysis.sentiment} Sentiment
                 </span>
-                <span className="text-[10px] text-muted-foreground font-medium">
-                  Confidence: {result.analysis.confidenceScore}%
-                </span>
               </div>
             </div>
-            <p className="text-sm text-muted-foreground max-w-sm">
+
+            <p className="text-sm text-muted-foreground mb-6 leading-relaxed">
               {result.analysis.recommendation}
             </p>
+
+            {/* Score Breakdown Section */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 p-4 rounded-xl border border-border bg-card/50">
+              <div className="flex items-center gap-2 md:col-span-2 mb-1">
+                <BarChart3 className="h-4 w-4 text-primary" />
+                <h4 className="text-xs font-bold uppercase tracking-widest text-foreground">Score Decomposition</h4>
+              </div>
+              {result.analysis.scoreBreakdown.map((item, idx) => (
+                <div key={idx} className="flex items-start justify-between gap-4 p-2 rounded-lg bg-background/50 border border-border/50">
+                  <div className="flex flex-col">
+                    <span className="text-xs font-semibold text-foreground">{item.label}</span>
+                    <span className="text-[10px] text-muted-foreground">{item.description}</span>
+                  </div>
+                  <span className={`text-xs font-mono font-bold ${item.score >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+                    {item.score >= 0 ? '+' : ''}{item.score}
+                  </span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
@@ -232,10 +288,18 @@ const Results = () => {
         {/* Competitors */}
         {result.analysis.topCompetitors.length > 0 && (
           <>
-            <h3 className="font-semibold text-foreground mb-4">Top Competitors</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-10">
+            <h3 className="font-semibold text-foreground mb-4">Top Competitors & Evidence Analysis</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-10">
               {result.analysis.topCompetitors.map((c) => (
-                <CompetitorCard key={c.name} name={c.name} url={c.url} description={c.description} source={c.source} />
+                <CompetitorCard
+                  key={c.name}
+                  name={c.name}
+                  url={c.url}
+                  description={c.description}
+                  source={c.source}
+                  status={c.status}
+                  reasoning={c.reasoning}
+                />
               ))}
             </div>
           </>
@@ -255,6 +319,51 @@ const Results = () => {
             </div>
           </>
         )}
+
+        {/* Challenge Section */}
+        <div className="rounded-2xl border border-primary/20 bg-background p-6 mb-10 shadow-sm relative overflow-hidden">
+          <div className="absolute top-0 right-0 p-4 opacity-5">
+            <MessageSquare className="h-24 w-24" />
+          </div>
+
+          <div className="flex items-center gap-2 mb-4">
+            <MessageSquare className="h-5 w-5 text-primary" />
+            <h3 className="font-bold text-lg">Disagree with these findings?</h3>
+          </div>
+
+          <p className="text-sm text-muted-foreground mb-6 max-w-2xl">
+            Startup validation is a dialogue. If you think the AI misidentified a competitor or missed a key differentiation, tell us why. Our AI will re-evaluate its verdict based on your argument.
+          </p>
+
+          <div className="relative group">
+            <textarea
+              value={challenge}
+              onChange={(e) => setChallenge(e.target.value)}
+              placeholder="e.g., 'You mentioned DJI as a competitor, but my drone is for underwater pipe inspection, it's not a flying drone...'"
+              className="w-full min-h-[120px] rounded-xl border border-border bg-card p-4 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all resize-none mb-3"
+            />
+            <button
+              onClick={handleChallenge}
+              disabled={isChallenging || !challenge.trim()}
+              className="absolute bottom-6 right-3 inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-xs font-bold text-primary-foreground hover:bg-primary/90 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-primary/20"
+            >
+              {isChallenging ? (
+                <>
+                  <Loader2 className="h-3 w-3 animate-spin" />
+                  Re-analyzing...
+                </>
+              ) : (
+                <>
+                  <Send className="h-3 w-3" />
+                  Challenge AI
+                </>
+              )}
+            </button>
+          </div>
+          <p className="text-[10px] text-muted-foreground italic">
+            Note: This uses high-density reasoning to update your specific report.
+          </p>
+        </div>
 
         {/* Pro CTA */}
         <div className="relative rounded-2xl border border-primary/30 bg-card overflow-hidden mb-10">

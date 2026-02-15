@@ -495,18 +495,32 @@ Return ONLY JSON:
 {
   "score": 0-100,
   "verdict": "Wide Open|Opportunity|Crowded|Taken",
+  "confidenceScore": 0-100,
+  "confidenceLevel": "High|Medium|Low",
+  "scoreBreakdown": [
+    {"label": "App Store Saturation", "score": -15, "description": "3 direct competitors found"},
+    {"label": "Research Gap", "score": 15, "description": "No academic papers on this niche"}
+  ],
   "nicheOpportunities": ["3 very specific underserved segments"],
   "uniqueAngles": ["2 specific product features to beat incumbents"],
   "marketGaps": "Analyze if the competition is generic and how this specific idea fills a gap they missed.",
-  "competitors": [{"name": "", "description": "", "url": "", "source": "Google|AppStore|ProductHunt"}],
+  "competitors": [
+    {
+      "name": "", 
+      "description": "", 
+      "url": "", 
+      "source": "Google|AppStore|ProductHunt|HN|Scholar",
+      "status": "relevant|dismissed",
+      "reasoning": "Explain why this is a direct threat or why it was dismissed (e.g., 'Targeting enterprise, not SMB')"
+    }
+  ],
   "recommendation": "A 3-sentence high-impact advice explaining WHY it is novel or WHY it is crowded.",
-  "confidenceScore": 0-100,
   "sentiment": "Positive|Neutral|Critical"
 }`;
 
         const message = await anthropic.messages.create({
             model: 'claude-3-haiku-20240307',
-            max_tokens: 2000,
+            max_tokens: 2500,
             messages: [{ role: 'user', content: prompt }],
         });
 
@@ -520,12 +534,14 @@ Return ONLY JSON:
             return {
                 overallScore: analysis.score,
                 verdict: analysis.verdict,
+                confidenceScore: analysis.confidenceScore || 85,
+                confidenceLevel: analysis.confidenceLevel || 'Medium',
+                scoreBreakdown: analysis.scoreBreakdown || [],
                 nicheOpportunities: analysis.nicheOpportunities || [],
                 uniqueAngles: analysis.uniqueAngles || [],
                 marketGaps: analysis.marketGaps || '',
                 topCompetitors: analysis.competitors || [],
                 recommendation: analysis.recommendation,
-                confidenceScore: analysis.confidenceScore || 85,
                 sentiment: analysis.sentiment || 'Neutral'
             };
         }
@@ -535,6 +551,65 @@ Return ONLY JSON:
 
     // Fallback analysis
     return generateFallbackAnalysis(sources);
+}
+
+export async function analyzeChallengeWithAI(idea: string, sources: any, userChallenge: string, previousAnalysis: any) {
+    try {
+        const Anthropic = (await import('@anthropic-ai/sdk')).default;
+        const anthropic = new Anthropic({
+            apiKey: process.env.ANTHROPIC_API_KEY,
+        });
+
+        const prompt = `You are a startup advisor in a deep debate with a founder about their idea: "${idea}"
+
+### THE DATA:
+- Found Competitors: ${previousAnalysis.topCompetitors.map((c: any) => c.name).join(', ')}
+- Score Breakdown previously: ${JSON.stringify(previousAnalysis.scoreBreakdown)}
+
+### THE FOUNDER'S CHALLENGE:
+"${userChallenge}"
+
+### YOUR GOAL:
+1. Re-evaluate the competitors based on the founder's argument. Did the AI misidentify a competitor? Did it miss a key differentiation the founder just explained?
+2. Be objective. If the founder is right, CONCEDE and update the score higher. If the founder is wrong/delusional, DEFEND your position politely but firmly.
+3. Admit when the founder has found a specific angle that makes the incumbents irrelevant.
+
+Return ONLY JSON:
+{
+  "score": 0-100,
+  "verdict": "Wide Open|Opportunity|Crowded|Taken",
+  "confidenceLevel": "High|Medium|Low",
+  "scoreBreakdown": [],
+  "competitors": [], 
+  "recommendation": "Address the founder's challenge directly. Start with 'You have a point...' or 'While I hear you...'",
+  "conceded": boolean,
+  "sentiment": "Positive|Neutral|Critical"
+}`;
+
+        const message = await anthropic.messages.create({
+            model: 'claude-3-haiku-20240307',
+            max_tokens: 2500,
+            messages: [{ role: 'user', content: prompt }],
+        });
+
+        const content = message.content[0];
+        if (content.type === 'text') {
+            const analysis = JSON.parse(content.text.match(/\{[\s\S]*\}/)?.[0] || '{}');
+            return {
+                ...previousAnalysis,
+                overallScore: analysis.score,
+                verdict: analysis.verdict,
+                confidenceLevel: analysis.confidenceLevel,
+                scoreBreakdown: analysis.scoreBreakdown,
+                topCompetitors: analysis.competitors.length > 0 ? analysis.competitors : previousAnalysis.topCompetitors,
+                recommendation: analysis.recommendation,
+                sentiment: analysis.sentiment
+            };
+        }
+    } catch (error) {
+        console.error('Error with Challenge AI analysis:', error);
+        return previousAnalysis;
+    }
 }
 
 // ============================================================================
@@ -566,6 +641,12 @@ function generateFallbackAnalysis(sources: any) {
     return {
         overallScore: score,
         verdict,
+        confidenceScore: 70,
+        confidenceLevel: 'Medium' as const,
+        scoreBreakdown: [
+            { label: 'Market Volume', score: score > 50 ? 10 : -10, description: 'Based on raw count of similar entities' },
+            { label: 'Social Momentum', score: sources.reddit.length > 5 ? 5 : 0, description: 'Discussions found in relevant communities' }
+        ],
         nicheOpportunities: [
             'Target a specific industry vertical (e.g., healthcare, education)',
             'Focus on an underserved demographic (e.g., seniors, students)',
@@ -585,9 +666,10 @@ function generateFallbackAnalysis(sources: any) {
             url: item.url,
             description: item.description || item.tagline || `${item.rating || 0} stars`,
             source: item.trackName ? 'App Store' : item.tagline ? 'Product Hunt' : 'GitHub',
+            status: 'relevant' as const,
+            reasoning: 'Matches broad industry keywords.'
         })),
         recommendation: `${score > 60 ? 'Great opportunity! ' : 'Market is competitive but not impossible. '}Find your niche by targeting a specific segment, offering unique features, or building a better user experience than existing solutions.`,
-        confidenceScore: 70,
         sentiment: 'Neutral'
     };
 }

@@ -12,6 +12,7 @@ import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import BlogIndex from "./pages/blog/Index";
 import BlogPost from "./pages/blog/Post";
+import Methodology from "./pages/Methodology";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -32,6 +33,7 @@ const App = () => (
             <Route path="/login" element={<Login />} />
             <Route path="/blog" element={<BlogIndex />} />
             <Route path="/blog/:slug" element={<BlogPost />} />
+            <Route path="/methodology" element={<Methodology />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

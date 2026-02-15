@@ -86,20 +86,31 @@ export interface Competitor {
     url: string;
     description: string;
     source: string;
+    status: 'relevant' | 'dismissed';
+    reasoning: string;
 }
 
 export type Verdict = 'Wide Open' | 'Opportunity' | 'Crowded' | 'Taken';
+export type ConfidenceLevel = 'High' | 'Medium' | 'Low';
+
+export interface ScoreComponent {
+    label: string;
+    score: number;
+    description: string;
+}
 
 export interface AIAnalysis {
     overallScore: number;
     verdict: Verdict;
+    confidenceScore: number;
+    confidenceLevel: ConfidenceLevel;
+    scoreBreakdown: ScoreComponent[];
     topCompetitors: Competitor[];
     keyRisks?: string[];  // Made optional since we removed it from new responses
     recommendation: string;
     nicheOpportunities?: string[];  // New: AI-generated niche suggestions
     uniqueAngles?: string[];  // New: Differentiation ideas
     marketGaps?: string;  // New: What's missing in the market
-    confidenceScore: number;
     sentiment: 'Positive' | 'Neutral' | 'Critical';
 }
 
@@ -130,6 +141,28 @@ export const checkIdea = async (idea: string, userId?: string): Promise<IdeaChec
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({ idea, userId }),
+    });
+
+    if (!response.ok) {
+        throw new Error(`API error: ${response.statusText}`);
+    }
+
+    return response.json();
+};
+
+export const challengeAI = async (
+    idea: string,
+    sources: any,
+    userChallenge: string,
+    previousAnalysis: AIAnalysis,
+    userId?: string
+): Promise<{ analysis: AIAnalysis }> => {
+    const response = await fetch(`${API_BASE_URL}/api/challenge-ai`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ idea, sources, userChallenge, previousAnalysis, userId }),
     });
 
     if (!response.ok) {
