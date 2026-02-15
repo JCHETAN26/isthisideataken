@@ -11,6 +11,7 @@ import {
     analyzeWithAI,
     searchGoogle,
     searchHackerNews,
+    searchResearchPapers,
 } from '@/lib/api-services';
 import {
     getCachedIdeaCheck,
@@ -155,7 +156,7 @@ export async function POST(request: NextRequest) {
         console.log(`Cache miss - fetching fresh data for: "${idea}"`);
 
         // Run all API calls in parallel for speed
-        const [appStore, productHunt, reddit, github, trends, trademark, google, hn] =
+        const [appStore, productHunt, reddit, github, trends, trademark, google, hn, research] =
             await Promise.allSettled([
                 searchAppStore(idea),
                 searchProductHunt(idea),
@@ -165,6 +166,7 @@ export async function POST(request: NextRequest) {
                 searchTrademarks(idea),
                 searchGoogle(idea),
                 searchHackerNews(idea),
+                searchResearchPapers(idea),
             ]);
 
         // Extract successful results or use empty arrays
@@ -176,6 +178,7 @@ export async function POST(request: NextRequest) {
             github: github.status === 'fulfilled' ? github.value : [],
             google: google.status === 'fulfilled' ? google.value : [],
             hn: hn.status === 'fulfilled' ? hn.value : [],
+            research: research.status === 'fulfilled' ? research.value : [],
             trends:
                 trends.status === 'fulfilled'
                     ? trends.value
@@ -196,6 +199,7 @@ export async function POST(request: NextRequest) {
             { name: 'trademark', result: trademark },
             { name: 'google', result: google },
             { name: 'hn', result: hn },
+            { name: 'research', result: research },
         ].filter((s) => s.result.status === 'rejected');
 
         if (failures.length > 0) {

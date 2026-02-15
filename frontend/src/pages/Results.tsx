@@ -112,6 +112,16 @@ const Results = () => {
         url: `https://tmsearch.uspto.gov/search/search-results?searchString=${encodeURIComponent(t.name)}`
       }))
     },
+    {
+      source: "Academic Research",
+      status: (result.sources.research && result.sources.research.length > 0 ? "found" : "clear") as "found" | "clear",
+      summary: result.sources.research && result.sources.research.length > 0 ? `${result.sources.research.length} related research papers found` : "No direct academic parallels",
+      items: result.sources.research?.slice(0, 3).map(res => ({
+        label: res.title,
+        url: res.url,
+        sub: `${res.citations} citations • ${res.authors}`
+      }))
+    },
   ];
 
   return (
@@ -141,8 +151,8 @@ const Results = () => {
               <VerdictBadge verdict={result.analysis.verdict} className="text-sm" />
               <div className="flex items-center gap-2">
                 <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${result.analysis.sentiment === 'Positive' ? 'bg-green-500/10 text-green-500' :
-                    result.analysis.sentiment === 'Critical' ? 'bg-red-500/10 text-red-500' :
-                      'bg-blue-500/10 text-blue-500'
+                  result.analysis.sentiment === 'Critical' ? 'bg-red-500/10 text-red-500' :
+                    'bg-blue-500/10 text-blue-500'
                   }`}>
                   {result.analysis.sentiment} Sentiment
                 </span>

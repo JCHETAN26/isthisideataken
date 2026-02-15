@@ -378,6 +378,37 @@ export async function searchTrademarks(idea: string) {
 }
 
 // ============================================================================
+// RESEARCH PAPERS SEARCH (Google Scholar via SerpAPI)
+// ============================================================================
+
+export async function searchResearchPapers(idea: string) {
+    try {
+        console.log('📚 Searching Research Papers for:', idea);
+        const response = await axios.get('https://serpapi.com/search', {
+            params: {
+                engine: 'google_scholar',
+                q: idea,
+                api_key: process.env.SERP_API_KEY,
+                num: 5,
+            },
+        });
+
+        const organicResults = response.data.organic_results || [];
+
+        return organicResults.map((result: any) => ({
+            title: result.title,
+            url: result.link,
+            snippet: result.snippet,
+            authors: result.publication_info?.summary || 'Unknown Authors',
+            citations: result.inline_links?.cited_by?.total || 0,
+        }));
+    } catch (error) {
+        console.error('Error searching Research Papers:', error);
+        return [];
+    }
+}
+
+// ============================================================================
 // HACKER NEWS SEARCH (Algolia)
 // ============================================================================
 
@@ -422,9 +453,15 @@ export async function analyzeWithAI(idea: string, sources: any) {
         const googleSnippets = sources.google.slice(0, 5).map((g: any) => `- ${g.name}: ${g.description}`).join('\n');
         const redditSnippets = sources.reddit.slice(0, 3).map((r: any) => `- r/${r.subreddit}: ${r.title}`).join('\n');
         const hnSnippets = sources.hn?.slice(0, 3).map((h: any) => `- ${h.title} (${h.comments} comments)`).join('\n') || 'None';
+        const researchSnippets = sources.research?.slice(0, 3).map((res: any) => `- ${res.title}: ${res.snippet}`).join('\n') || 'None';
 
         const prompt = `You are a world-class startup investor and market analyst. 
 Validate this startup idea: "${idea}"
+
+### CRITICAL INSTRUCTION:
+DO NOT penalize the score just because the broad category (e.g., "Drones", "Apps", "SaaS") exists. 
+Distinguish between the **GENERAL CATEGORY** and the **SPECIFIC NOVELTY** of the idea. 
+If no one is doing EXACTLY what this user is proposing, it is an "Opportunity" or "Wide Open", even if they are in a popular field.
 
 ### RAW DATA GATHERED:
 - Google Search Results: 
@@ -432,6 +469,9 @@ ${googleSnippets}
 
 - App Store Competitors:
 ${appSnippets}
+
+- Research Papers & Academic Context:
+${researchSnippets}
 
 - Reddit Discussions:
 ${redditSnippets}
@@ -444,12 +484,12 @@ ${hnSnippets}
 - Trademarks: ${sources.trademark.found ? sources.trademark.matches.length + ' matches' : 'None found'}
 
 ### EVALUATION CRITERIA:
-1. MARKET SATURATION: Is it literally already taken?
-2. PAIN POINT INTENSITY: Do people complain about current solutions in Reddit/HN?
-3. DIFFERENTIATION POTENTIAL: Where is the "magic gap"?
+1. SPECIFICITY: Are competitors doing EXACTLY this, or just something in the same family?
+2. TECHNICAL NOVELTY: Does the research suggest this is a "first of its kind" or a common academic topic?
+3. MARKET GAPS: What is the "delta" between existing solutions and this specific proposal?
 
 ### OUTPUT REQUIREMENTS:
-Be brutally honest but strategically encouraging. If "Taken", suggest a clever pivot.
+Be brutally accurate. If it is a "Blue Ocean" (Zero direct competitors), give it a score of 85+. 
 
 Return ONLY JSON:
 {
@@ -457,9 +497,9 @@ Return ONLY JSON:
   "verdict": "Wide Open|Opportunity|Crowded|Taken",
   "nicheOpportunities": ["3 very specific underserved segments"],
   "uniqueAngles": ["2 specific product features to beat incumbents"],
-  "marketGaps": "Detailed explanation of what existing solutions are missing",
+  "marketGaps": "Analyze if the competition is generic and how this specific idea fills a gap they missed.",
   "competitors": [{"name": "", "description": "", "url": "", "source": "Google|AppStore|ProductHunt"}],
-  "recommendation": "A 3-sentence high-impact advice",
+  "recommendation": "A 3-sentence high-impact advice explaining WHY it is novel or WHY it is crowded.",
   "confidenceScore": 0-100,
   "sentiment": "Positive|Neutral|Critical"
 }`;

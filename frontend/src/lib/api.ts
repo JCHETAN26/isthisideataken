@@ -58,6 +58,14 @@ export interface HackerNewsResult {
     createdAt: string;
 }
 
+export interface ResearchPaperResult {
+    title: string;
+    url: string;
+    snippet: string;
+    authors: string;
+    citations: number;
+}
+
 export interface TrendsData {
     keyword: string;
     interest: number;
@@ -107,6 +115,7 @@ export interface IdeaCheckResult {
         github: GitHubResult[];
         google: GoogleResult[];
         hn: HackerNewsResult[];
+        research: ResearchPaperResult[];
         trends: TrendsData;
         trademark: TrademarkResult;
     };
