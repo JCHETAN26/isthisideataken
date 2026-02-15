@@ -33,6 +33,16 @@ const Results = () => {
   // Map sources to the format expected by SourceCard
   const sources = [
     {
+      source: "Google Web",
+      status: (result.sources.google && result.sources.google.length > 0 ? "found" : "clear") as "found" | "clear",
+      summary: result.sources.google && result.sources.google.length > 0 ? `Found ${result.sources.google.length} relevant websites` : "No direct web competitors found",
+      items: result.sources.google?.slice(0, 3).map(res => ({
+        label: res.name,
+        url: res.url,
+        sub: res.description.substring(0, 60) + "..."
+      }))
+    },
+    {
       source: "App Store",
       status: (result.sources.appStore.length > 0 ? "found" : "clear") as "found" | "clear",
       summary: result.sources.appStore.length > 0 ? `${result.sources.appStore.length} similar apps found` : "No direct competitors found",
@@ -194,7 +204,7 @@ const Results = () => {
             <h3 className="font-semibold text-foreground mb-4">Top Competitors</h3>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-10">
               {result.analysis.topCompetitors.map((c) => (
-                <CompetitorCard key={c.name} name={c.name} url={c.url} description={c.description} />
+                <CompetitorCard key={c.name} name={c.name} url={c.url} description={c.description} source={c.source} />
               ))}
             </div>
           </>

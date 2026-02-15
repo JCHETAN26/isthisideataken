@@ -241,6 +241,35 @@ export async function searchReddit(idea: string) {
     }
 }
 
+// = : ===========================================================================
+// GOOGLE SEARCH (SerpAPI)
+// ============================================================================
+
+export async function searchGoogle(idea: string) {
+    try {
+        console.log('🔍 Searching Google for:', idea);
+        const response = await axios.get('https://serpapi.com/search', {
+            params: {
+                engine: 'google',
+                q: `${idea} startup app website`,
+                api_key: process.env.SERP_API_KEY,
+                num: 10,
+            },
+        });
+
+        const organicResults = response.data.organic_results || [];
+
+        return organicResults.map((result: any) => ({
+            name: result.title,
+            url: result.link,
+            description: result.snippet,
+        }));
+    } catch (error) {
+        console.error('Error searching Google:', error);
+        return [];
+    }
+}
+
 // ============================================================================
 // GITHUB SEARCH
 // ============================================================================
@@ -362,6 +391,7 @@ export async function analyzeWithAI(idea: string, sources: any) {
         const prompt = `You are a startup advisor helping an entrepreneur validate: "${idea}"
 
 Market research:
+- Google Search: ${sources.google.length} relevant websites/articles found
 - App Store: ${sources.appStore.length} similar apps
 - Product Hunt: ${sources.productHunt.length} launches
 - Reddit: ${sources.reddit.length} discussions
@@ -370,6 +400,7 @@ Market research:
 - Trademarks: ${sources.trademark.found ? sources.trademark.matches.length + ' found' : 'None'}
 
 Be MOTIVATING. Even if crowded, help them find their angle.
+Identify the TOP 10 real competitors from the Google results, App Store, and Product Hunt.
 
 Return JSON:
 {
@@ -378,7 +409,7 @@ Return JSON:
   "nicheOpportunities": ["3 specific niches like 'budgeting for freelancers'"],
   "uniqueAngles": ["2 differentiation ideas"],
   "marketGaps": "What's missing in current solutions",
-  "competitors": [{"name": "", "description": ""}],
+  "competitors": [{"name": "", "description": "", "url": "", "source": "Google|AppStore|ProductHunt"}],
   "recommendation": "Actionable, motivating 2-3 sentences"
 }`;
 

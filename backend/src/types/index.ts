@@ -43,6 +43,12 @@ export interface GitHubResult {
   language: string;
 }
 
+export interface GoogleResult {
+  name: string;
+  url: string;
+  description: string;
+}
+
 export interface TrendsData {
   keyword: string;
   interest: number; // 0-100
@@ -95,6 +101,7 @@ export interface IdeaCheckResult {
     productHunt: ProductHuntResult[];
     reddit: RedditResult[];
     github: GitHubResult[];
+    google: GoogleResult[];
     trends: TrendsData;
     trademark: TrademarkResult;
   };
