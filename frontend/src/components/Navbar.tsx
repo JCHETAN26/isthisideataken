@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { User } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
+import Logo from "./Logo";
 
 const Navbar = () => {
   const { user } = useAuth();
@@ -8,10 +9,8 @@ const Navbar = () => {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-xl">
       <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4 sm:px-6">
-        <Link to="/" className="flex items-center gap-2 font-bold text-lg tracking-tight">
-          <div className="h-7 w-7 rounded-lg bg-primary flex items-center justify-center text-primary-foreground text-xs font-black">
-            IT
-          </div>
+        <Link to="/" className="flex items-center gap-2 font-bold text-lg tracking-tight hover:opacity-90 transition-opacity">
+          <Logo className="h-8 w-8" />
           <span className="text-foreground">IsThisIdeaTaken</span>
         </Link>
 
