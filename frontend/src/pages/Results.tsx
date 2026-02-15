@@ -63,6 +63,16 @@ const Results = () => {
       }))
     },
     {
+      source: "Hacker News",
+      status: (result.sources.hn && result.sources.hn.length > 0 ? "found" : "clear") as "found" | "clear",
+      summary: result.sources.hn && result.sources.hn.length > 0 ? `${result.sources.hn.length} relevant stories` : "No major HN discussions",
+      items: result.sources.hn?.slice(0, 3).map(h => ({
+        label: h.title,
+        url: h.url,
+        sub: `${h.points} points • ${h.comments} comments`
+      }))
+    },
+    {
       source: "Reddit",
       status: (result.sources.reddit.length > 0 ? "found" : "clear") as "found" | "clear",
       summary: result.sources.reddit.length > 0 ? `${result.sources.reddit.length} discussions found` : "No major discussions found",
@@ -129,8 +139,19 @@ const Results = () => {
           <div>
             <div className="flex items-center gap-3 mb-2">
               <VerdictBadge verdict={result.analysis.verdict} className="text-sm" />
+              <div className="flex items-center gap-2">
+                <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${result.analysis.sentiment === 'Positive' ? 'bg-green-500/10 text-green-500' :
+                    result.analysis.sentiment === 'Critical' ? 'bg-red-500/10 text-red-500' :
+                      'bg-blue-500/10 text-blue-500'
+                  }`}>
+                  {result.analysis.sentiment} Sentiment
+                </span>
+                <span className="text-[10px] text-muted-foreground font-medium">
+                  Confidence: {result.analysis.confidenceScore}%
+                </span>
+              </div>
             </div>
-            <p className="text-sm text-muted-foreground max-w-xs">
+            <p className="text-sm text-muted-foreground max-w-sm">
               {result.analysis.recommendation}
             </p>
           </div>

@@ -378,6 +378,35 @@ export async function searchTrademarks(idea: string) {
 }
 
 // ============================================================================
+// HACKER NEWS SEARCH (Algolia)
+// ============================================================================
+
+export async function searchHackerNews(idea: string) {
+    try {
+        console.log('📰 Searching Hacker News for:', idea);
+        // Using Algolia HN Search API (Free)
+        const response = await axios.get('https://hn.algolia.com/api/v1/search', {
+            params: {
+                query: idea,
+                tags: 'story',
+                hitsPerPage: 5,
+            },
+        });
+
+        return response.data.hits.map((hit: any) => ({
+            title: hit.title,
+            url: hit.url || `https://news.ycombinator.com/item?id=${hit.objectID}`,
+            points: hit.points,
+            comments: hit.num_comments,
+            createdAt: hit.created_at,
+        }));
+    } catch (error) {
+        console.error('Error searching Hacker News:', error);
+        return [];
+    }
+}
+
+// ============================================================================
 // AI ANALYSIS (Claude)
 // ============================================================================
 
@@ -388,29 +417,51 @@ export async function analyzeWithAI(idea: string, sources: any) {
             apiKey: process.env.ANTHROPIC_API_KEY,
         });
 
-        const prompt = `You are a startup advisor helping an entrepreneur validate: "${idea}"
+        // Deep Content Analysis: Prepare snippets for the AI
+        const appSnippets = sources.appStore.slice(0, 5).map((a: any) => `- ${a.name}: ${a.similarity}% match`).join('\n');
+        const googleSnippets = sources.google.slice(0, 5).map((g: any) => `- ${g.name}: ${g.description}`).join('\n');
+        const redditSnippets = sources.reddit.slice(0, 3).map((r: any) => `- r/${r.subreddit}: ${r.title}`).join('\n');
+        const hnSnippets = sources.hn?.slice(0, 3).map((h: any) => `- ${h.title} (${h.comments} comments)`).join('\n') || 'None';
 
-Market research:
-- Google Search: ${sources.google.length} relevant websites/articles found
-- App Store: ${sources.appStore.length} similar apps
-- Product Hunt: ${sources.productHunt.length} launches
-- Reddit: ${sources.reddit.length} discussions
-- GitHub: ${sources.github.length} projects
-- Trends: ${sources.trends.interest}/100, ${sources.trends.trend}
-- Trademarks: ${sources.trademark.found ? sources.trademark.matches.length + ' found' : 'None'}
+        const prompt = `You are a world-class startup investor and market analyst. 
+Validate this startup idea: "${idea}"
 
-Be MOTIVATING. Even if crowded, help them find their angle.
-Identify the TOP 10 real competitors from the Google results, App Store, and Product Hunt.
+### RAW DATA GATHERED:
+- Google Search Results: 
+${googleSnippets}
 
-Return JSON:
+- App Store Competitors:
+${appSnippets}
+
+- Reddit Discussions:
+${redditSnippets}
+
+- Hacker News Mentions:
+${hnSnippets}
+
+- GitHub Projects: ${sources.github.length} repos found
+- Trends: Interest level ${sources.trends.interest}/100 and it is ${sources.trends.trend}
+- Trademarks: ${sources.trademark.found ? sources.trademark.matches.length + ' matches' : 'None found'}
+
+### EVALUATION CRITERIA:
+1. MARKET SATURATION: Is it literally already taken?
+2. PAIN POINT INTENSITY: Do people complain about current solutions in Reddit/HN?
+3. DIFFERENTIATION POTENTIAL: Where is the "magic gap"?
+
+### OUTPUT REQUIREMENTS:
+Be brutally honest but strategically encouraging. If "Taken", suggest a clever pivot.
+
+Return ONLY JSON:
 {
   "score": 0-100,
   "verdict": "Wide Open|Opportunity|Crowded|Taken",
-  "nicheOpportunities": ["3 specific niches like 'budgeting for freelancers'"],
-  "uniqueAngles": ["2 differentiation ideas"],
-  "marketGaps": "What's missing in current solutions",
+  "nicheOpportunities": ["3 very specific underserved segments"],
+  "uniqueAngles": ["2 specific product features to beat incumbents"],
+  "marketGaps": "Detailed explanation of what existing solutions are missing",
   "competitors": [{"name": "", "description": "", "url": "", "source": "Google|AppStore|ProductHunt"}],
-  "recommendation": "Actionable, motivating 2-3 sentences"
+  "recommendation": "A 3-sentence high-impact advice",
+  "confidenceScore": 0-100,
+  "sentiment": "Positive|Neutral|Critical"
 }`;
 
         const message = await anthropic.messages.create({
@@ -434,6 +485,8 @@ Return JSON:
                 marketGaps: analysis.marketGaps || '',
                 topCompetitors: analysis.competitors || [],
                 recommendation: analysis.recommendation,
+                confidenceScore: analysis.confidenceScore || 85,
+                sentiment: analysis.sentiment || 'Neutral'
             };
         }
     } catch (error) {
@@ -494,5 +547,7 @@ function generateFallbackAnalysis(sources: any) {
             source: item.trackName ? 'App Store' : item.tagline ? 'Product Hunt' : 'GitHub',
         })),
         recommendation: `${score > 60 ? 'Great opportunity! ' : 'Market is competitive but not impossible. '}Find your niche by targeting a specific segment, offering unique features, or building a better user experience than existing solutions.`,
+        confidenceScore: 70,
+        sentiment: 'Neutral'
     };
 }

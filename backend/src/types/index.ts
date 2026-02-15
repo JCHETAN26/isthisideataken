@@ -49,6 +49,14 @@ export interface GoogleResult {
   description: string;
 }
 
+export interface HackerNewsResult {
+  title: string;
+  url: string;
+  points: number;
+  comments: number;
+  createdAt: string;
+}
+
 export interface TrendsData {
   keyword: string;
   interest: number; // 0-100
@@ -89,6 +97,8 @@ export interface AIAnalysis {
   nicheOpportunities?: string[];
   uniqueAngles?: string[];
   marketGaps?: string;
+  confidenceScore: number;
+  sentiment: 'Positive' | 'Neutral' | 'Critical';
 }
 
 export interface IdeaCheckResult {
@@ -102,6 +112,7 @@ export interface IdeaCheckResult {
     reddit: RedditResult[];
     github: GitHubResult[];
     google: GoogleResult[];
+    hn: HackerNewsResult[];
     trends: TrendsData;
     trademark: TrademarkResult;
   };

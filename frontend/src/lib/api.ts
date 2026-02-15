@@ -50,6 +50,14 @@ export interface GoogleResult {
     description: string;
 }
 
+export interface HackerNewsResult {
+    title: string;
+    url: string;
+    points: number;
+    comments: number;
+    createdAt: string;
+}
+
 export interface TrendsData {
     keyword: string;
     interest: number;
@@ -83,6 +91,8 @@ export interface AIAnalysis {
     nicheOpportunities?: string[];  // New: AI-generated niche suggestions
     uniqueAngles?: string[];  // New: Differentiation ideas
     marketGaps?: string;  // New: What's missing in the market
+    confidenceScore: number;
+    sentiment: 'Positive' | 'Neutral' | 'Critical';
 }
 
 export interface IdeaCheckResult {
@@ -96,6 +106,7 @@ export interface IdeaCheckResult {
         reddit: RedditResult[];
         github: GitHubResult[];
         google: GoogleResult[];
+        hn: HackerNewsResult[];
         trends: TrendsData;
         trademark: TrademarkResult;
     };
